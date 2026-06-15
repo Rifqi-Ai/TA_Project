@@ -1,0 +1,3496 @@
+RANCANG BANGUN SISTEM REKOMENDASI  
+RESEP MASAKAN INDONESIA BERDASARKAN 
+ KETERSEDIAAN BAHAN MENGGUNAKAN  
+ALGORITMA ARTIFICIAL NEURAL NETWORK (ANN) 
+
+PROPOSAL PENELITIAN 
+
+Oleh: 
+
+Muhamad Rifqi Salim 
+10222089 
+
+PROGRAM STUDI INFORMATIKA 
+SEKOLAH TINGGI TEKNOLOGI CIPASUNG 
+TASIKMALAYA 
+2026
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+DAFTAR ISI 
+
+1.7 
+
+DAFTAR ISI ............................................................................................................. ii 
+DAFTAR TABEL ....................................................................................................iv 
+DAFTAR GAMBAR ................................................................................................ v 
+DAFTAR ISTILAH .................................................................................................vi 
+BAB I  PENDAHULUAN......................................................................................... 1 
+1.1 
+Latar Belakang .......................................................................................... 1 
+1.2 
+Posisi Penelitian......................................................................................... 3 
+1.3 
+Rumusan Masalah...................................................................................... 6 
+1.4 
+Tujuan Penelitian ....................................................................................... 6 
+Batasan Masalah ........................................................................................ 7 
+1.5 
+1.6  Manfaat Penelitian ..................................................................................... 7 
+1.6.1  Aspek Teoretis....................................................................................... 8 
+1.6.2  Aspek Praktis ........................................................................................ 8 
+Sistematika Penulisan................................................................................. 8 
+BAB II  LANDASAN TEORI................................................................................. 10 
+2.1. 
+Sistem Rekomendasi ................................................................................ 10 
+2.2. 
+Content-Based Filtering ........................................................................... 10 
+2.3. 
+Artificial Neural Network (ANN) .............................................................. 12 
+2.4. 
+Klasifikasi ............................................................................................... 16 
+2.5. 
+Natural Language Processing (NLP) ........................................................ 18 
+2.6. 
+Pengolahan Teks (Text Preprocessing) ...................................................... 20 
+2.7. 
+TF-IDF (Term Frequency-Inverse Document Frequency) ........................... 22 
+2.8. 
+Cosine Similarity ..................................................................................... 25 
+Evaluasi Model........................................................................................ 26 
+2.9. 
+2.10.  CRISP-DM (Cross Industry Standard Process for Data Mining)................. 29 
+2.11.  Teori Resep ............................................................................................. 31 
+2.12.  Framework Web ...................................................................................... 33 
+BAB III  METODOLOGI PENELITIAN .............................................................. 36 
+Pemahaman Masalah dan Tujuan (Business Understanding) ....................... 37 
+Pemahaman Data (Data Understanding) ................................................... 38 
+Persiapan Data (Data Preparation) ........................................................... 40 
+Pemodelan (Modeling) ............................................................................. 42 
+Evaluasi (Evaluation) ............................................................................... 44 
+
+3.1. 
+3.2. 
+3.3. 
+3.4. 
+3.5. 
+
+ii 
+
+ 
+ 
+3.6. 
+
+Penyebaran (Deployment)......................................................................... 45 
+DAFTAR PUSTAKA ............................................................................................. 47 
+
+iii 
+
+ 
+ 
+ 
+ 
+ 
+DAFTAR TABEL 
+
+Tabel 1.1 Posisi Penelitian...................................................................................... 3 
+Tabel 3.1 Struktur dan Kategori Atribut Utama Dataset ...................................... 39 
+
+iv 
+
+ 
+ 
+ 
+ 
+ 
+ 
+DAFTAR GAMBAR 
+
+Gambar 2.1 Mekanisme Kerja Content-Based Filtering ............................................. 11 
+Gambar 2.2 Arsitektur Dasar Artificial Neural Network (ANN)................................. 13 
+Gambar 2.3 Alur Pelatihan Artificial Neural Network (ANN).................................... 15 
+Gambar 2.4 Visualisasi Binary Classification dan Multiclass Classification................ 17 
+Gambar 2.5 Diagram Alur Proses Perhitungan TF-IDF ............................................. 24 
+Gambar 2.6 Ilustrasi Sudut antara Dua Vektor pada Cosine Similarity ....................... 26 
+Gambar 2.7 Ilustrasi Confusion Matrix .................................................................... 28 
+Gambar 2.8 Ilustrasi Tahapan Metodologi CRISP-DM.............................................. 30 
+Gambar 2.9 Ilustrasi Pola MVC pada Web Framework ............................................. 34 
+Gambar 3.1 Flowchart Alur Penelitian ................................................................ 36 
+Gambar 3.2 Flowchart Tahapan Persiapan Data ................................................. 40 
+Gambar 3.3 Rancangan Awal Arsitektur Artificial Neural Network (ANN) ...... 43 
+
+v 
+
+ 
+ 
+ 
+ 
+ 
+DAFTAR ISTILAH 
+
+1.  Artificial  Neural Network (ANN) 
+
+Algoritma  jaringan  saraf  tiruan  yang  merepresentasikan  proses  di  otak 
+manusia,  digunakan  untuk memodelkan  klasifikasi  data, mengekstraksi  fitur 
+secara otomatis, dan mengenali pola kompleks  secara presisi. 
+
+2.  Case Folding 
+
+Tahap prapemrosesan  teks yang menyeragamkan  seluruh huruf menjadi satu 
+bentuk, umumnya huruf kecil (lowercase). 
+
+3.  Confusion Matrix 
+
+Tabel komputasi yang membandingkan label prediksi dari model dengan label 
+aktual  (nilai  sebenarnya)  pada  data  uji  untuk  mengukur  performa  evaluasi 
+klasifikasi. 
+4.  Cosine Similarity 
+
+Metode  pengukuran  tingkat  kemiripan  antara  dua  vektor  teks  dengan 
+menghitung nilai  kosinus  sudut di antara keduanya pada ruang multidimensi; 
+menghasilkan  nilai  0  hingga  1,  di  mana  nilai  mendekati  1  berarti  kedua 
+dokumen semakin mirip. 
+
+5.  CRISP-DM (Cross Industry Standard Process for Data Mining) 
+
+Metodologi standar yang terdiri dari enam tahapan utama (pemahaman  bisnis, 
+pemahaman  data, persiapan  data, pemodelan, evaluasi,  dan penyebaran) yang 
+berfungsi sebagai kerangka kerja terstruktur untuk proyek berbasis data. 
+
+6.  Dataset 
+
+Kumpulan  basis  data  yang  digunakan  dalam  penelitian,  seperti  Indonesian 
+Food  Recipes  Dataset  yang  berisi  belasan  ribu  data  resep  untuk  pelatihan 
+model. 
+7.  Filtering 
+
+Proses  penyaringan  dalam pengolahan  teks yang berfokus pada penghapusan 
+angka serta karakter khusus (simbol). 
+
+8.  Food Waste 
+
+Pemborosan  bahan  pangan  atau  limbah  makanan,  yang  sering  dipicu  oleh 
+ketidakmampuan individu dalam mengelola dan mengolah sisa bahan masakan 
+di rumah tangga. 
+
+9.  Hidden Layer 
+
+Lapisan tersembunyi pada arsitektur ANN yang menerima  data dari input layer 
+dan  bertugas  melakukan  komputasi  bobot  matematika  untuk  mengekstraksi 
+fitur serta mengenali pola kompleks. 
+
+10.  Information Overload 
+
+vi 
+
+ 
+ 
+Kondisi  kelebihan  informasi,  contohnya  melimpahnya  resep  masakan  di 
+internet  yang  justru  menyulitkan  pengguna  untuk  menemukan  resep  yang 
+spesifik secara presisi. 
+
+11.  Lemmatization 
+
+pengembalian 
+
+dengan 
+Proses 
+mempertimbangkan  konteks tata bahasa agar  makna kata tersebut tetap benar 
+dalam kamus. 
+
+kata  ke  bentuk  dasarnya 
+
+sebuah 
+
+12.  Natural Language Processing (NLP) 
+
+Cabang  dari  ilmu  kecerdasan  buatan  dan  bahasa  komputasi  yang  berfokus 
+menjembatani  interaksi antara mesin dan manusia  dengan cara mengubah teks 
+tidak terstruktur menjadi format numerik yang dapat diproses oleh komputer. 
+
+13.  Overfitting 
+
+Suatu indikasi  ketika model machine learning  terlalu  menyesuaikan  diri atau 
+latih,  sehingga  gagal  melakukan  generalisasi  untuk 
+menghafal  data 
+memprediksi  data yang belum pernah dilihat sebelumnya. 
+
+14.  Sistem Rekomendasi 
+
+Perangkat  lunak  atau  sistem  penyaringan  informasi  yang  dirancang  secara 
+otomatis untuk memprediksi  probabilitas  kecocokan pengguna terhadap suatu 
+item  (seperti  resep  masakan)  guna  menyederhanakan  proses  pengambilan 
+keputusan. 
+15.  Stemming 
+
+Tahap memotong dan menghapus imbuhan untuk mengembalikan  sekumpulan 
+token (kata)  ke bentuk dasarnya agar variasi  kata yang bermakna  sama dapat 
+disatukan secara komputasi. 
+
+16.  Stopword Removal 
+
+Proses membuang kata-kata hubung, kata takaran, atau kata umum yang sering 
+muncul  namun  tidak memberikan  nilai  klasifikasi  yang  kuat  (seperti  "dan", 
+"secukupnya",  "siung"). 
+
+17.  Term Frequency-Inverse Document Frequency (TF-IDF) 
+
+Metode  ekstraksi  fitur  untuk  mengubah  kata-kata  menjadi  matriks  vektor 
+numerik  dengan memberikan  bobot perhitungan berdasarkan  seberapa  sering 
+kata  tersebut muncul  dalam  satu  dokumen versus  kelangkaannya  di  seluruh 
+dokumen. 
+
+18.  Text Preprocessing 
+
+Rangkaian  tahapan  prapemrosesan  dan  pembersihan  teks  mentah  (meliputi 
+case folding, filtering,  tokenizing,  stopword removal, dan stemming) agar teks 
+tersebut menjadi terstandarisasi dan siap diolah. 
+
+19.  Tokenizing (Tokenization) 
+
+Proses  pemecahan  kalimat  utuh  menjadi  potongan-potongan  kata  tunggal 
+(token) berdasarkan letak spasi dan tanda baca.
+
+vii 
+
+ 
+BAB I  
+
+PENDAHULUAN 
+
+1.1  Latar Belakang 
+
+Pangan  merupakan  kebutuhan  primer  bagi  kelangsungan  hidup  manusia. 
+
+Dalam  pemenuhan  kebutuhan  pangan  sehari-hari,  pengolahan  bahan  makanan 
+
+menjadi  hidangan yang  bergizi  dan bervariasi  merupakan  rutinitas  yang penting. 
+
+Namun,  pada  praktiknya,  pengelolaan  bahan  makanan,  terutama  di  kalangan 
+
+mahasiswa/anak  kos  dan  ibu  rumah  tangga  pemula,  sering  kali  menghadapi 
+
+kendala.  Kelompok  ini  umumnya  memiliki  keterbatasan  waktu  dan pengalaman 
+
+memasak,  sehingga  sering  kali  kebingungan  menentukan  menu  dari  bahan  yang 
+
+dimiliki  akibat  kurangnya  ide  atau  referensi  untuk  mengolahnya  secara  optimal 
+
+(Faiz  &  Ridhwanullah,  2025).  Kondisi  ini  menyebabkan  bahan  makanan  tidak 
+
+kunjung  dimasak  hingga  akhirnya  rusak  atau  membusuk,  dan  pada  akhirnya 
+
+berujung pada food waste (limbah  makanan) (Mulyawan & Lestari, 2019). 
+
+Sekilas,  persoalan  kurangnya  ide  ini  seharusnya  mudah  diatasi  mengingat 
+
+ketersediaan  resep  kuliner  di  internet  saat  ini  sangat  melimpah.  Akan  tetapi, 
+
+melimpahnya 
+
+informasi 
+
+tersebut  justru  menimbulkan  masalah  baru  berupa 
+
+information  overload  (kelebihan  informasi),  sehingga  proses  pencarian  resep 
+
+berdasarkan bahan spesifik yang tersedia di dapur menjadi tidak efisien  (Wong & 
+
+Yoannita,  2026).  Umumnya,  platform  penyedia  resep  konvensional  belum 
+
+memiliki  fitur  pencarian  berlapis  (filtering)  yang  memungkinkan  pengguna 
+
+memilah 
+
+resep  secara  presisi  berdasarkan  ketersediaan  bahan  baku  yang 
+
+dimilikinya (Sholikhah & Asmunin, 2020). Pertukaran resep secara lisan pun dinilai 
+
+kurang  efektif karena  berisiko  menghilangkan  informasi  penting  terkait  takaran 
+
+bahan  (Wahyuni  dkk., 2018).  Oleh  karena  itu,  diperlukan  suatu  solusi  teknologi 
+
+yang dapat membantu kalangan mahasiswa/anak  kos dan ibu rumah tangga dalam 
+
+mempermudah aktivitas memasak  sehari-hari  (Rahmawan dkk., 2022). 
+
+Kompleksitas  dalam  penentuan  menu  masakan  ini  semakin  bertambah 
+
+apabila dihadapkan pada karakteristik masakan khas Indonesia. Kuliner  Nusantara 
+
+dikenal  dengan  penggunaan  bahan  dasar  dan  komposisi  rempah-rempah  yang 
+
+sangat  bervariasi  (Lestari  &  Kusrini,  2012).  Kurangnya  pengetahuan  masyarakat 
+
+1 
+
+ 
+dalam meracik dan mengolah bahan dasar menjadi hidangan yang sesuai sering kali 
+
+membatasi variasi cita rasa yang dihasilkan (Wahyuni dkk., 2018). Selain itu, setiap 
+
+jenis  hidangan  menuntut  kombinasi  bahan  penyerta  dan  metode memasak  yang 
+
+spesifik  agar  sesuai  dengan  ekspektasi  pengguna  (Wong  &  Yoannita,  2026). 
+
+Karakteristik inilah  yang membuat proses  pencocokan antara bahan yang  tersedia 
+
+dengan  resep  yang  sesuai  tidak  dapat  dilakukan  secara  sederhana,  melainkan 
+
+membutuhkan  pendekatan  yang  mampu  mengenali  pola  hubungan  antarbahan 
+
+secara akurat. 
+
+Berbagai  penelitian  terdahulu  telah  berupaya  menyelesaikan  permasalahan 
+
+rekomendasi  resep  ini  melalui  beragam  algoritma.  Pada ranah  pemrosesan  citra, 
+
+algoritma  Convolutional  Neural  Network  (CNN)  pernah  diterapkan  untuk 
+
+mendeteksi bahan makanan berdasarkan  gambar (Saputri  dkk., 2024). Pada ranah 
+
+pemrosesan 
+
+teks  (Natural  Language  Processing),  kombinasi  Content-Based 
+
+Filtering  dan  K-Nearest  Neighbors  (KNN)  dengan  pembobotan  TF-IDF  telah 
+
+digunakan  untuk  menghasilkan  rekomendasi  resep  (Febrywinata  dkk.,  2025). 
+
+Pengembangan  antarmuka  pencarian  resep  berbasis  perangkat  bergerak  (mobile) 
+
+yang  memanfaatkan  integrasi  Application  Programming  Interface  (API)  pihak 
+
+ketiga  juga  telah  dieksplorasi  untuk mengurangi  ketergantungan  pada basis  data 
+
+lokal  (Alfin  dkk., 2025).  Selain  itu,  studi  komparasi  antara  TF-IDF  dan model 
+
+bahasa IndoBERT menunjukkan bahwa kemampuan mesin  dalam memahami  teks 
+
+sangat memengaruhi  relevansi  resep yang direkomendasikan (Hanum dkk., 2025). 
+
+Berdasarkan tinjauan terhadap penelitian-penelitian  tersebut, masih  terdapat 
+
+celah  penelitian  yang dapat disempurnakan. Pendekatan rekomendasi  yang hanya 
+
+mengandalkan pembobotan statistik seperti TF-IDF dengan pengukuran kemiripan 
+
+sederhana  memiliki  keterbatasan  dalam  mengenali  pola  hubungan  non-linear 
+
+antarbahan  pada  masakan  Indonesia  yang  kombinasinya  rumit.  Di  sisi  lain,  
+
+pendekatan  berbasis  citra  menggunakan  CNN  membutuhkan  sumber  daya 
+
+komputasi dan memori  yang besar. Untuk menjembatani  celah tersebut, penelitian 
+
+ini  mengusulkan  penggunaan  algoritma  Artificial  Neural  Network  (ANN)  yang 
+
+bekerja  pada data tekstual. Dalam penelitian  ini,  TF-IDF tetap digunakan sebagai 
+
+metode ekstraksi fitur untuk mengubah teks bahan menjadi data numerik, sementara 
+
+2 
+
+ 
+ANN  berperan  mempelajari  pola  hubungan  non-linear  dari  fitur  tersebut  dan 
+
+mengklasifikasikan  resep  yang  sesuai.  ANN merupakan  model  komputasi  yang 
+
+terinspirasi  dari  cara  kerja  jaringan  saraf  pada  otak  manusia,  di  mana  sistem 
+
+memperoleh  pengetahuan  melalui  proses  pembelajaran  dari  sekumpulan  data 
+
+masukan  (Descania,  2022).  Dengan  kemampuannya  mempelajari  pola  yang 
+
+kompleks tanpa memerlukan pemrosesan citra yang berat, ANN dinilai sesuai untuk 
+
+mengidentifikasi  hubungan  antara  ketersediaan  bahan  dan  karakteristik  resep 
+
+Indonesia secara akurat dan efisien. 
+
+Berdasarkan  pemaparan  fenomena  di  atas,  urgensi  untuk  mengakomodasi 
+
+keragaman kuliner Nusantara, serta celah dari penelitian terdahulu, maka penelitian 
+
+ini difokuskan pada pengembangan sistem  yang mampu  merekomendasikan  resep 
+
+masakan berdasarkan ketersediaan bahan secara  cepat dan akurat. Oleh karena itu, 
+
+penelitian  ini  diberi  judul  "Rancang  Bangun  Sistem  Rekomendasi  Resep 
+
+Masakan  Indonesia  Berdasarkan  Ketersediaan  Bahan  Menggunakan 
+
+Algoritma Artificial  Neural Network (ANN)". 
+
+1.2  Posisi Penelitian 
+
+Untuk  memperjelas  posisi  dan  perbedaan  penelitian  yang  akan  dilakukan 
+
+terhadap penelitian-penelitian  sebelumnya,  penelitian  ini  dikomparasikan  dengan 
+
+beberapa  penelitian  terdahulu  yang  memiliki  relevansi 
+
+topik.  Perbandingan 
+
+metodologi dan fokus pengembangan tersebut dapat dilihat secara lebih  rinci pada 
+
+Tabel 1.1. 
+
+No 
+
+Judul 
+
+1  Deteksi Bahan 
+
+Makanan Untuk 
+Rekomendasi 
+Resep Masakan 
+Pada Program 
+Diet 
+Menggunakan 
+Algoritma Cnn 
+
+Tabel 1.1 Posisi Penelitian 
+
+Penulis 
+(Tahun) 
+Saputri dkk. 
+(2024) 
+
+Metode yang 
+Digunakan 
+Pendekatan citra 
+digital menggunakan 
+Convolutional 
+Neural Network 
+(CNN). 
+
+Perbedaan dengan 
+Penelitian ini 
+
+Penelitian ini tidak 
+menggunakan pemrosesan 
+citra (gambar) bahan 
+makanan, melainkan 
+memproses input berbasis 
+teks menggunakan Artificial 
+Neural Network (ANN), 
+sehingga beban komputasi 
+yang dibutuhkan jauh lebih 
+ringan. 
+
+3 
+
+ 
+ 
+ 
+ 
+Hanum dkk. 
+(2025) 
+
+Ekstraksi fitur teks 
+menggunakan TF-
+IDF dengan Cosine 
+Similarity dan model 
+bahasa IndoBERT. 
+
+Faiz & 
+Ridhwanullah 
+(2025) 
+
+Content-Based 
+Filtering dan 
+pemanfaatan OpenAI 
+API (GPT-4o). 
+
+Febrywinata 
+dkk. (2025) 
+
+Content-Based 
+Filtering dan 
+algoritma klasifikasi 
+K-Nearest Neighbors 
+(KNN). 
+
+Alfin dkk. 
+(2025) 
+
+Pengembangan 
+mobile menggunakan 
+kerangka kerja 
+Flutter dan API 
+TheMealDB. 
+
+2 
+
+3 
+
+4 
+
+5 
+
+Studi 
+Perbandingan 
+Kinerja Tf-Idf 
+Dan Indobert 
+Untuk 
+Rekomendasi 
+Resep 
+Berdasarkan 
+Ketersediaan 
+Bahan Makanan 
+Berbasis Website 
+Savoryai: Sistem 
+Rekomendasi 
+Resep Masakan 
+Berbasis Content-
+Based Filtering 
+Dan Openai Api 
+
+Sistem 
+Rekomendasi 
+Masakan 
+Berdasarkan 
+Ketersediaan 
+Bahan 
+Menggunakan 
+Metode Content-
+Based Filtering 
+dengan Algoritma 
+K-Nearest 
+Neighbors 
+Pengembangan 
+Aplikasi 
+Rekomendasi 
+Resep Makanan 
+Berdasarkan 
+Bahan 
+Menggunakan 
+Api 
+
+Mulyawan & 
+Lestari (2019) 
+
+Content-Based 
+Filtering Algorithm 
+(CBFA)  berbasis 
+pemrosesan skrip 
+PHP. 
+
+6  Rancang Bangun 
+
+Sistem 
+Rekomendasi 
+Resep Masakan 
+Berdasarkan 
+Bahan Baku 
+Dengan 
+Menggunakan 
+
+4 
+
+Penelitian ini difokuskan 
+pada perancangan arsitektur 
+jaringan syaraf tiruan 
+(ANN)  murni untuk 
+pemrosesan teks, alih-alih 
+menggunakan model bahasa 
+prapelatihan (pre-trained) 
+seperti IndoBERT. 
+
+Penelitian ini melatih model 
+secara mandiri melalui 
+proses pelatihan ANN 
+menggunakan dataset lokal, 
+dan sama sekali tidak 
+bergantung pada layanan 
+Application Programming 
+Interface (API) eksternal 
+berbayar. 
+Penelitian ini menggunakan 
+algoritma Artificial Neural 
+Network (ANN)  yang 
+secara matematis memiliki 
+kemampuan lebih andal 
+dalam memetakan pola  
+non-linear dari kombinasi 
+bahan dibandingkan metode 
+jarak tetangga (KNN) 
+klasik. 
+
+Penelitian ini dibangun 
+dengan arsitektur berbasis 
+Website (bukan aplikasi 
+mobile), dan memusatkan 
+basis data pelatihannya 
+pada resep masakan khas 
+Indonesia secara eksklusif. 
+
+Penelitian ini 
+mengimplementasikan 
+algoritma pembelajaran 
+mesin Artificial Neural 
+Network (ANN)  yang 
+mampu mengenali pola data 
+secara lebih dinamis, alih-
+alih sekadar menggunakan 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+7 
+
+8 
+
+Algoritma 
+Penyaringan 
+Berbasis Konten 
+
+Sistem 
+Rekomendasi 
+Resep Makanan 
+Dengan Metode 
+Collaborative 
+Filtering  Dan FP-
+Growth 
+Menggunakan 
+API 
+themealdb.com 
+
+Sistem 
+Rekomendasi 
+Resep Masakan 
+Menggunakan 
+Kombinasi 
+Metode ROC dan 
+SAW 
+
+Sholikhah & 
+Asmunin 
+(2020) 
+
+Collaborative 
+Filtering dan 
+algoritma asosiasi 
+FP-Growth 
+menggunakan API 
+TheMealDB. 
+
+perhitungan bobot (weight) 
+linier  berbasis query pada 
+PHP. 
+
+Penelitian ini menggunakan 
+model rekomendasi 
+berbasis konten dari dataset 
+mandiri (lokal) yang diolah 
+melalui ANN,  tanpa 
+melibatkan parameter 
+kolaborasi antar pengguna 
+(Collaborative Filtering) 
+maupun aturan asosiasi FP-
+Growth. 
+
+Wahyuni dkk. 
+(2018) 
+
+Sistem Pendukung 
+Keputusan (SPK) 
+dengan kombinasi 
+metode pembobotan 
+Rank Order Centroid 
+(ROC)  dan Simple 
+Additive Weighting 
+(SAW). 
+
+Penelitian ini menggeser 
+paradigma dari pembobotan 
+multikriteria manual 
+menjadi prediksi mandiri 
+yang diotomatisasi oleh 
+kecerdasan buatan melalui 
+arsitektur Artificial Neural 
+Network (ANN). 
+
+Rahmawan 
+dkk. (2022) 
+
+9  Aplikasi 
+
+Pendeteksi 
+Makanan Dan 
+Rekomendasi 
+Resep Masakan 
+Khas Indonesia  
+
+Aplikasi  pendeteksi 
+makanan berbasis 
+Computer Vision 
+(CV)  dan Natural 
+Language 
+Processing (NLP). 
+
+Wong & 
+Yoannita 
+(2026) 
+
+10 
+
+Implementasi Tf-
+Idf Dan Cosine 
+Similarity  Untuk 
+Rekomendasi 
+Resep Masakan 
+Indonesia 
+Berdasarkan 
+Bahan Makanan 
+
+Content-Based 
+Filtering dengan TF-
+IDF, Cosine 
+Similarity, dan 
+deteksi fuzzy 
+matching (koreksi 
+typo). 
+
+Penelitian ini mereduksi 
+kompleksitas sistem dengan 
+menghilangkan fitur 
+Computer Vision 
+(pendeteksian citra visual), 
+guna memusatkan seluruh 
+daya komputasi secara 
+spesifik pada pengolahan 
+teks dengan ANN. 
+
+Penelitian ini 
+mengeksplorasi 
+kemampuan pemetaan pola 
+(pattern recognition) pada 
+hidden layers dalam 
+arsitektur ANN,  bukan 
+sekadar bersandar pada 
+perhitungan jarak vektor 
+kemiripan kosinus (Cosine 
+Similarity). 
+
+11  Prediksi 
+
+Pertumbuhan 
+Penduduk Di 
+
+Descania  
+(2022) 
+
+Artificial Neural 
+Network (ANN) 
+untuk 
+
+Meskipun sama -sama 
+menggunakan algoritma 
+ANN,  penelitian ini 
+
+5 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+prediksi/peramalan 
+(forecasting). 
+
+Muhamad 
+Rifqi Salim 
+(2026) 
+
+Artificial Neural 
+Network (ANN)  dan 
+pemrosesan data 
+tekstual berbasis 
+Website. 
+
+Kecamatan 
+Baregbeg 
+Kabupaten 
+Ciamis 
+Menggunakan 
+Metode Artificial 
+Neural Network 
+
+12  Rancang Bangun 
+
+Sistem 
+Rekomendasi 
+Resep Masakan 
+Indonesia 
+Berdasarkan 
+Ketersediaan 
+Bahan 
+Menggunakan 
+Algoritma 
+Artificial Neural 
+Network (ANN) 
+
+berfokus pada prediksi 
+angka pertumbuhan 
+penduduk berbasis data 
+numerik, sedangkan 
+penelitian yang akan 
+dilakukan menggunakan 
+ANN  untuk klasifikasi dan 
+sistem rekomendasi resep 
+masakan berbasis 
+pemrosesan teks. 
+
+Penelitian ini mengusulkan 
+alternatif sistem 
+rekomendasi yang 
+memadukan pemrosesan 
+teks bahan makanan dengan 
+algoritma ANN.  Fokus 
+utamanya adalah 
+merancang sistem berbasis 
+web yang ringan (tanpa 
+pemrosesan citra) dan 
+mandiri (tanpa API pihak 
+ketiga) khusus untuk resep 
+masakan Indonesia. 
+
+1.3  Rumusan Masalah 
+
+Berdasarkan pemaparan  fenomena dan celah  penelitian  pada latar  belakang 
+
+yang telah diuraikan, maka rumusan  masalah  pada penelitian  ini difokuskan pada: 
+
+Bagaimana  merancang  dan membangun  sistem  rekomendasi  resep  masakan  khas 
+
+Indonesia berbasis web menggunakan  algoritma Artificial  Neural Network (ANN) 
+
+berdasarkan input ketersediaan bahan makanan? 
+
+1.4  Tujuan Penelitian 
+
+Sejalan  dengan rumusan  masalah  yang telah ditetapkan, adapun tujuan yang 
+
+ingin  dicapai dari pelaksanaan  penelitian  ini  adalah: Menghasilkan  sebuah sistem 
+
+rekomendasi  resep  masakan  khas  Indonesia  berbasis  web  yang  menerapkan 
+
+algoritma  Artificial  Neural Network (ANN) untuk memberikan  rekomendasi resep 
+
+berdasarkan  daftar bahan  yang dimasukkan  pengguna,  sehingga  dapat membantu 
+
+kalangan mahasiswa dan ibu rumah tangga dalam menentukan menu masakan  dari 
+
+bahan yang tersedia. 
+
+6 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1.5  Batasan Masalah 
+
+Agar pelaksanaan  penelitian  ini lebih  terarah, fokus, dan tidak menyimpang 
+
+dari tujuan utama yang telah ditetapkan, maka diberikan  batasan-batasan masalah 
+
+sebagai berikut: 
+
+1.  Sistem  rekomendasi  yang  dibangun  dan diimplementasikan  berbasis  web 
+
+(tidak mencakup pengembangan pada platform mobile seperti Android atau 
+
+iOS). 
+
+2.  Dataset  yang  digunakan  adalah  Indonesian  Food  Recipes  Dataset  dari 
+
+Kaggle  dengan jumlah  ±14.945 data resep,  yang dibatasi secara  eksklusif 
+
+pada resep masakan khas Indonesia. 
+
+3.  Atribut  data  yang  digunakan  meliputi  Title  (judul  resep),  Ingredients 
+
+(bahan), Category (kategori/label),  dan Steps (langkah memasak). 
+
+4.  Format input yang dapat diterima dan diproses  oleh sistem  dibatasi hanya 
+
+berupa  teks  (Natural  Language)  yang  berisi  daftar  ketersediaan  bahan 
+
+makanan  pengguna,  dan tidak mencakup  pemrosesan  input  dalam  bentuk 
+
+citra/gambar  (Computer Vision) maupun suara (Voice Recognition). 
+
+5.  Sistem  dikembangkan menggunakan bahasa  pemrograman  Python dengan 
+
+framework Flask. 
+
+6.  Output yang dihasilkan oleh sistem berfokus pada pemberian  rekomendasi 
+
+judul  resep  beserta  instruksi  pengolahannya  yang  memiliki  relevansi 
+
+tertinggi  dengan  bahan  baku  yang  diinputkan  pengguna,  serta  tidak 
+
+memperhitungkan  informasi  gizi,  jumlah  kalori,  takaran  porsi,  maupun 
+
+estimasi harga bahan. 
+
+7.  Resep yang  direkomendasikan terbatas  pada resep  yang tersedia  di dalam 
+
+dataset, sehingga  sistem  tidak menghasilkan  kreasi  resep  baru di luar  data 
+
+yang digunakan. 
+
+1.6  Manfaat Penelitian 
+
+Manfaat yang diharapkan dari pelaksanaan penelitian ini terbagi menjadi dua 
+
+aspek  utama,  yaitu  aspek  teoretis  dan  aspek  praktis,  dengan  penjabaran  sebagai 
+
+berikut: 
+
+7 
+
+ 
+1.6.1 Aspek Teoretis 
+
+1.  Memberikan  kontribusi  terhadap  pengembangan  keilmuan  di  bidang 
+
+Informatika,  khususnya  mengenai  implementasi  dan  evaluasi  kinerja 
+
+algoritma  Artificial  Neural  Network  (ANN)  dalam  ruang 
+
+lingkup 
+
+pemrosesan 
+
+teks  (Natural  Language  Processing)  pada  kasus  sistem 
+
+rekomendasi.   
+
+2.  Menjadi  rujukan  dan  landasan  literatur  bagi  penelitian  selanjutnya  yang 
+
+berfokus pada pengembangan  model kecerdasan buatan untuk memetakan 
+
+pola  kombinasi  bahan  makanan,  khususnya  pada  ragam  kuliner  khas 
+
+Indonesia. 
+
+1.6.2 Aspek Praktis 
+
+1.  Memberikan  solusi teknologi berbasis web yang mudah diakses dan mudah 
+
+digunakan,  khususnya  bagi  mahasiswa/anak  kos  dan  ibu  rumah  tangga, 
+
+guna mempermudah pencarian ide atau referensi resep masakan yang sesuai 
+
+dengan ketersediaan bahan baku di dapur. 
+
+2.  Membantu menekan  tingkat pembuangan limbah  makanan  (food waste)  di 
+
+skala  rumah  tangga  dengan  cara  mengoptimalkan  pengolahan  bahan 
+
+masakan agar tidak menumpuk, rusak, atau membusuk. 
+
+1.7  Sistematika  Penulisan 
+
+Untuk memberikan  gambaran  yang  komprehensif  dan terstruktur mengenai 
+
+alur  penyusunan  Proposal  Penelitian  ini,  maka  laporan  dibagi  menjadi  tiga  bab 
+
+dengan sistematika penulisan  sebagai berikut: 
+
+BAB I PENDAHULUAN  
+
+Bab  ini  menguraikan  landasan  awal  penelitian  yang  mencakup  latar  belakang 
+
+masalah  mengenai  sistem  rekomendasi resep,  posisi  penelitian,  rumusan  masalah, 
+
+tujuan penelitian,  batasan masalah,  manfaat penelitian,  serta sistematika penulisan 
+
+laporan. 
+
+BAB II LANDASAN TEORI  
+
+Bab  ini  berisi  tinjauan  pustaka  dari  penelitian-penelitian  terdahulu  yang  relevan 
+
+serta  pemaparan  teori  dasar  yang  mendukung  jalannya  penelitian.  Teori  yang 
+
+dibahas  secara  spesifik  meliputi  konsep  sistem  rekomendasi,  algoritma  Artificial 
+
+8 
+
+ 
+Neural  Network  (ANN),  pemrosesan  teks  (Natural  Language  Processing),  serta 
+
+teknologi pengembangan sistem rekomendasi resep berbasis  web. 
+
+BAB III METODOLOGI PENELITIAN  
+
+Bab  ini  memaparkan  tahapan  penelitian  yang  dilakukan  secara  sistematis,  mulai 
+
+dari  metode  pengumpulan  data  (dataset)  resep  masakan  khas  Indonesia, 
+
+perancangan arsitektur model ANN, perancangan antarmuka dan basis data sistem, 
+
+hingga perumusan skenario pengujian yang akan dieksekusi. 
+
+9 
+
+ 
+ 
+BAB II  
+
+LANDASAN TEORI 
+
+2.1.  Sistem Rekomendasi 
+
+Perkembangan  teknologi  informasi  membuat  jumlah  data digital meningkat 
+
+sangat pesat, termasuk pada bidang kuliner. Kondisi ini menimbulkan  information 
+
+overload,  yaitu  keadaan  ketika  pengguna  kesulitan  menemukan  informasi  yang 
+
+relevan dari banyaknya data yang tersedia. Untuk mengatasi permasalahan tersebut 
+
+dikembangkan sistem rekomendasi (recommendation system), yaitu teknologi yang 
+
+membantu pengguna menemukan item yang relevan dari sejumlah besar data secara 
+
+otomatis (Wong & Yoannita, 2026). 
+
+Pada  dasarnya,  sistem  rekomendasi  berfungsi  memberikan  saran  kepada 
+
+pengguna  mengenai  item  yang  sebaiknya  dipilih  atau  digunakan  (Sholikhah  & 
+
+Asmunin,  2020).  Dengan  demikian,  sistem  ini  membantu  pengguna  mengambil 
+
+keputusan  secara 
+
+lebih  cepat  di 
+
+tengah  banyaknya  pilihan, 
+
+sekaligus 
+
+memungkinkan  pengguna menemukan item yang sebelumnya belum diketahui. 
+
+Secara umum, sistem rekomendasi bekerja dengan menganalisis  karakteristik 
+
+item  dan  preferensi  pengguna  untuk  membentuk  sebuah  model  penilaian. 
+
+Berdasarkan model tersebut, sistem menghitung bobot kecocokan pada setiap item, 
+
+kemudian menyusun keluaran berupa daftar rekomendasi yang diurutkan dari nilai 
+
+relevansi  tertinggi ke terendah (Wahyuni dkk., 2018). 
+
+Dalam  praktiknya,  terdapat  beberapa  metode  pemfilteran  yang  dapat 
+
+digunakan,  disesuaikan  dengan  ketersediaan  data  dan  atributnya.  Salah  satu 
+
+pendekatan yang umum adalah mencocokkan fitur yang melekat pada item dengan 
+
+preferensi  yang dimasukkan oleh  pengguna (Faiz &  Ridhwanullah, 2025).  Ketika 
+
+rekomendasi  perlu  dihasilkan  hanya  berdasarkan  kesamaan  fitur  dari  item  itu 
+
+sendiri  tanpa  bergantung  pada data  interaksi  pengguna  lain,  metode  yang  paling 
+
+sesuai untuk diterapkan adalah content-based filtering. 
+
+2.2.  Content-Based Filtering 
+
+Content-based filtering  merupakan salah satu pendekatan utama dalam sistem 
+
+rekomendasi yang berfokus pada analisis fitur atau atribut dari sebuah item. Metode 
+
+ini merekomendasikan item baru berdasarkan kesamaan fiturnya dengan item yang 
+
+10 
+
+ 
+pernah disukai pengguna sebelumnya,  atau berdasarkan kriteria  yang dimasukkan 
+
+pengguna secara  langsung  (Mulyawan  & Lestari,  2019). Menurut  Pernanda dkk., 
+
+2023, algoritma  berbasis konten bekerja dengan menganalisis  spesifikasi  atau fitur 
+
+dari  setiap  item  yang  ada  di  dalam  basis  data.  Berbeda  dengan  collaborative 
+
+filtering  yang  bergantung  pada  riwayat  interaksi  atau  penilaian  dari  banyak 
+
+pengguna,  content-based  filtering  tidak  memerlukan  data pengguna  lain  karena 
+
+bertumpu  pada kecocokan  antara  preferensi  pengguna  dan  fitur  item  itu  sendiri 
+
+(Mulyawan & Lestari, 2019). 
+
+Secara teknis,  mekanisme  kerja  content-based  filtering  terdiri atas beberapa 
+
+tahapan. Tahap pertama adalah ekstraksi fitur (feature  extraction),  yaitu mengubah 
+
+atribut  atau  metadata teks  dari  suatu  item  menjadi  representasi  vektor  numerik. 
+
+Selanjutnya, sistem  membentuk profil pengguna yang merangkum  preferensi  atau 
+
+masukan  pengguna.  Profil  tersebut  kemudian  dibandingkan  dengan  profil  item 
+
+menggunakan  perhitungan  kemiripan, 
+
+seperti 
+
+cosine 
+
+similarity, 
+
+untuk 
+
+menghasilkan  nilai  kemiripan  (similarity  score).  Item  dengan  similarity  score 
+
+tertinggi akhirnya dipilih dan ditampilkan sebagai hasil  rekomendasi (Febrywinata 
+
+dkk., 2025). 
+
+Gambar 2.1 Mekanisme  Kerja Content-Based Filtering 
+
+Sumber Gambar: (Maulid, 2023) 
+
+Berdasarkan  Gambar  2.1,  alur  pemfilteran  berbasis  konten  dapat  diamati 
+
+secara  visual. Ketika pengguna menunjukkan  ketertarikan pada suatu item, sistem 
+
+11 
+
+ 
+ 
+mengekstraksi  atribut atau kategori yang menyusun item tersebut. Fitur yang telah 
+
+diekstraksi  kemudian  dijadikan  representasi  preferensi  pengguna.  Berdasarkan 
+
+representasi  itu,  sistem  menelusuri  basis  data  untuk  mencari  item  lain  yang 
+
+memiliki  kesamaan  fitur,  lalu  menyajikan  item  yang  paling  relevan  kepada 
+
+pengguna (Mulyawan & Lestari, 2019). 
+
+Keunggulan  utama  content-based  filtering  terletak  pada  kemampuannya 
+
+memberikan  rekomendasi yang personal dan tidak bergantung pada data pengguna 
+
+lain  (Febrywinata  dkk.,  2025).  Karena  rekomendasi  dihasilkan  murni  dari  fitur 
+
+item,  metode  ini  tetap dapat bekerja  meskipun  data dari  banyak  pengguna  tidak 
+
+tersedia, selama  setiap item memiliki  fitur yang terdefinisi dengan baik (Mulyawan 
+
+&  Lestari,  2019).  Karakteristik  ini  membuat  content-based 
+
+filtering  cocok 
+
+diterapkan pada basis data yang dinamis atau ketika data dari banyak pengguna sulit 
+
+diperoleh. 
+
+Meskipun  demikian,  content-based  filtering  juga  memiliki  keterbatasan. 
+
+Karena rekomendasi  hanya  didasarkan pada kesamaan  fitur, hasil  yang diberikan 
+
+cenderung kurang  beragam  dan terbatas pada item  yang  mirip  dengan preferensi 
+
+awal  pengguna.  Selain  itu,  pencocokan  fitur  secara  tradisional  umumnya  hanya 
+
+mengandalkan  kemunculan  kata  tanpa  memahami  konteksnya,  sehingga  kurang 
+
+mampu  menangkap  hubungan  makna  (semantik)  yang  lebih  dalam  antar-fitur 
+
+(Hanum dkk., 2025). 
+
+Untuk  mengatasi  keterbatasan 
+
+tersebut  dan  meningkatkan  kualitas 
+
+rekomendasi,  sistem  rekomendasi  modern  mulai  mengintegrasikan  metode 
+
+machine  learning  yang  lebih  mampu  memahami  pola  hubungan  yang  kompleks 
+
+serta  makna  semantik  dari  data (Hanum  dkk., 2025).  Di antara  berbagai  metode 
+
+kecerdasan buatan, salah satu yang banyak digunakan untuk menangani pemetaan 
+
+non-linear  dan  ekstraksi  fitur  yang  lebih  mendalam  adalah  Artificial  Neural 
+
+Network (ANN). 
+
+2.3.  Artificial  Neural Network (ANN) 
+
+Artificial  Neural  Network  (ANN)  atau  Jaringan  Saraf  Tiruan  merupakan 
+
+model  komputasi  dalam  kecerdasan  buatan  yang  memproses  informasi  melalui 
+
+jaringan  unit-unit  pemroses  yang  saling  terhubung.  Secara  konseptual,  ANN 
+
+12 
+
+ 
+terinspirasi  oleh  mekanisme  kerja  jaringan  saraf  biologis  pada otak  manusia,  di 
+
+mana  sel-sel  saraf  saling  terhubung untuk menerima,  mengolah,  dan meneruskan 
+
+sinyal.  Prinsip  dasar  ANN  adalah  menggunakan  unit  pemrosesan  buatan  yang 
+
+saling  berinteraksi  untuk  mempelajari  pola-pola  dari  sekumpulan  data  secara 
+
+berulang (Descania, 2022). Berbeda dengan sistem berbasis aturan statis yang kaku, 
+
+ANN  memiliki  kemampuan  untuk  menyesuaikan  parameter  internalnya  secara 
+
+mandiri  selama  proses  pembelajaran  agar  tingkat ketepatan  prediksinya  semakin 
+
+meningkat seiring bertambahnya data yang dipelajari. 
+
+Arsitektur  dasar  ANN  umumnya  terorganisir  ke  dalam  tiga  jenis  lapisan 
+
+utama, yaitu input layer (lapisan masukan), hidden layer (lapisan tersembunyi), dan 
+
+output  layer  (lapisan  keluaran).  Input  layer  berfungsi  menerima  data  dari  luar 
+
+sistem,  hidden  layer  bertugas  melakukan  transformasi  matematis  serta  pemetaan 
+
+fitur-fitur  penting,  sedangkan  output  layer  memberikan  hasil  akhir  dari  proses 
+
+pengolahan  tersebut.  Lapisan  tersembunyi  sendiri  dapat  terdiri  atas  satu  atau 
+
+beberapa lapisan,  bergantung pada kompleksitas masalah yang ditangani. Di dalam 
+
+setiap lapisan  terdapat unit komputasi terkecil  yang disebut neuron. Setiap neuron 
+
+saling  terhubung melalui  bobot (weights)  yang menentukan kekuatan sinyal  antar 
+
+saraf,  serta  bias  sebagai  penyeimbang  nilai.  Selain  itu,  terdapat  fungsi  aktivasi 
+
+(activation  function)  yang berperan menentukan apakah suatu informasi diteruskan 
+
+ke saraf berikutnya atau tidak (Purwitasari & Soleh, 2022). 
+
+Gambar 2.2 Arsitektur Dasar Artificial  Neural Network (ANN) 
+Sumber Gambar: (Bre dkk., 2018) 
+
+13 
+
+ 
+ 
+ 
+Berdasarkan Gambar  2.2, dapat dilihat struktur sebuah  jaringan  saraf tiruan 
+
+yang  mengalirkan  data dari  kiri  ke  kanan.  Data  masukan  diterima  oleh  lapisan 
+
+paling  kiri,  kemudian  dialirkan  menuju  satu  atau  beberapa  lapisan  tersembunyi 
+
+yang  pada Gambar  2.2  ditunjukkan sebagai  h₁,  h₂,  hingga  hₙ.  Di  dalam  lapisan-
+
+lapisan tersembunyi inilah terjadi proses pengolahan data yang paling kompleks, di 
+
+mana  setiap  koneksi  antar  saraf  memiliki  bobot  tertentu yang  akan  disesuaikan 
+
+selama  masa  pelatihan.  Setelah  melalui  berbagai  perhitungan  di 
+
+lapisan 
+
+tersembunyi,  sistem  meneruskan  sinyal  tersebut  ke  lapisan  paling  kanan  untuk 
+
+menghasilkan  sebuah  nilai  keluaran.  Struktur  berlapis  ini  memungkinkan  ANN 
+
+menangkap hubungan-hubungan rumit di dalam data yang tidak dapat dilihat secara 
+
+kasat mata (Descania, 2022). 
+
+Proses  agar  ANN  dapat  menghasilkan  keluaran  yang  akurat  dilakukan 
+
+melalui  siklus  pelatihan  yang  bersifat  iteratif.  Pelatihan  ini  melibatkan  dua  fase 
+
+utama,  yaitu  forward  propagation  (perambatan  maju)  dan  backpropagation 
+
+(perambatan  balik).  Pada fase  maju,  data mengalir  dari  lapisan  masukan  hingga 
+
+menghasilkan  nilai  prediksi  atau  hasil  keluaran  model.  Hasil  ini  kemudian 
+
+dibandingkan  dengan  nilai  yang  seharusnya  untuk  mengetahui  seberapa  besar 
+
+tingkat kesalahan (loss/error)  yang dihasilkan model. Jika tingkat kesalahan masih 
+
+tinggi,  sistem  akan  menjalankan  fase  perambatan  balik  untuk  memperbaiki  nilai 
+
+bobot dan bias  di setiap  saraf. Siklus  ini  terus diulang  pada setiap  epoch  hingga 
+
+model mampu  menghasilkan  nilai  prediksi dengan tingkat kesalahan  yang paling 
+
+minimal  (Purwitasari  & Soleh, 2022). 
+
+14 
+
+ 
+Gambar 2.3 Alur Pelatihan Artificial  Neural Network (ANN) 
+
+Sumber Gambar:(Tuntas  & Dikici, 2016) 
+
+Gambar  2.3  mengilustrasikan  urutan  langkah  yang  ditempuh  sistem  dalam 
+
+melatih  jaringan  saraf  tiruan.  Proses  diawali  dengan  menentukan  parameter 
+
+masukan  dan keluaran,  membagi  data menjadi  data latih,  validasi,  dan uji,  serta 
+
+menetapkan algoritma pembelajaran.  Selanjutnya, nilai bobot dan bias diinisialisasi 
+
+secara  acak  sebagai  titik  awal  pelatihan.  Sistem  kemudian  mengolah  data untuk 
+
+menghasilkan  prediksi  dan  membandingkannya  dengan  nilai  sebenarnya  guna 
+
+mengukur  tingkat kesalahan  (error).  Jika  target kesalahan  belum  tercapai, sistem 
+
+akan  menambah  iterasi  dan  menyesuaikan  parameter  pelatihan  seperti  jumlah 
+
+lapisan  tersembunyi,  jumlah  neuron,  serta  nilai  bobot  dan  bias  lalu  mengulang 
+
+proses  validasi.  Siklus  ini  berlangsung  hingga target kesalahan  tercapai, sehingga 
+
+pada  akhirnya  diperoleh  arsitektur  jaringan  terbaik  yang  siap  digunakan  untuk 
+
+melakukan prediksi (Purwitasari & Soleh, 2022). 
+
+15 
+
+ 
+ 
+Keunggulan  utama ANN terletak  pada kemampuannya  dalam  memodelkan 
+
+hubungan data yang  tidak beraturan  (non-linear)  serta  mengekstraksi  fitur secara 
+
+otomatis  tanpa  perlu  ditentukan secara  manual  oleh  manusia.  Namun  demikian, 
+
+ANN memiliki  tantangan tersendiri, seperti kebutuhan daya komputasi yang besar 
+
+serta sifatnya yang cenderung dianggap sebagai kotak hitam (black box),  di mana 
+
+sulit  bagi  manusia  untuk  memahami  secara  persis  bagaimana  sistem  mengambil 
+
+keputusan di dalam lapisan  tersembunyinya. Meskipun begitu, ANN tetap menjadi 
+
+landasan teoretis yang  sangat penting  dalam pengembangan  sistem  cerdas karena 
+
+efektivitasnya yang tinggi dalam menangani tugas pengenalan pola dan klasifikasi 
+
+data  (Descania,  2022;  Purwitasari  &  Soleh,  2022).  Pemahaman 
+
+terhadap 
+
+mekanisme  kerja  ANN ini  menjadi  dasar  bagi  pembahasan  mengenai  bagaimana 
+
+sistem akan mengklasifikasikan  kueri resep pengguna pada bab-bab selanjutnya. 
+
+2.4.  Klasifikasi 
+
+Klasifikasi  merupakan  salah  satu  tugas  mendasar  dalam  machine  learning 
+
+yang  bertujuan  untuk  mengategorikan  data  ke  dalam  kelas-kelas  yang  telah 
+
+ditentukan  sebelumnya.  Secara  konsep,  proses  ini  berbeda  dengan  regresi;  jika 
+
+regresi  dirancang  untuk  memprediksi  nilai  berupa  angka  yang  berkelanjutan 
+
+(continuous),  klasifikasi berupaya memetakan variabel masukan ke dalam kategori 
+
+target yang  saling  terpisah  (Ananda dkk., 2024). Dalam  kecerdasan buatan, tugas 
+
+klasifikasi  ini  dapat  diselesaikan  dengan  tingkat  akurasi  tinggi  menggunakan 
+
+arsitektur Artificial  Neural Network (ANN) seperti yang telah dibahas sebelumnya. 
+
+Jaringan saraf tiruan memiliki  kemampuan untuk mempelajari  pola non-linear yang 
+
+rumit,  sehingga  mampu  membentuk  batas keputusan  (decision  boundaries)  yang 
+
+kuat untuk memisahkan berbagai kelas data secara optimal. 
+
+Secara operasional,  klasifikasi umumnya beroperasi  di bawah kerangka kerja 
+
+supervised 
+
+learning.  Mekanisme  pembelajaran 
+
+ini  sangat  bergantung  pada 
+
+ketersediaan  data latih  historis  yang  telah  diberi  label  atau  penanda  kelas  yang 
+
+benar.  Dalam  ekosistem  ini,  setiap  titik  data  diwakili  oleh  sekumpulan  fitur 
+
+(features),  yaitu  karakteristik  atau  atribut  dari  data  tersebut,  yang  kemudian 
+
+dianalisis  oleh  algoritma  untuk  memprediksi  variabel 
+
+target  secara  akurat 
+
+(Descania,  2022).  Keseluruhan  proses  ini  dilakukan  melalui  dua tahapan  utama, 
+
+16 
+
+ 
+yakni fase pelatihan (training  phase) dan fase pengujian (testing/prediction  phase). 
+
+Pada  fase  pelatihan,  algoritma  secara  berulang  menganalisis 
+
+fitur  dan 
+
+mencocokkannya  dengan  label  untuk  membangun  sebuah  model  matematis. 
+
+Setelah  model tersebut dilatih,  fase pengujian  dilakukan menggunakan  data baru 
+
+yang belum pernah dilihat sebelumnya untuk menguji  sejauh  mana model mampu 
+
+memprediksi  label dengan tepat. 
+
+Berdasarkan  jumlah  kategori  yang  menjadi  target,  klasifikasi  dibedakan 
+
+menjadi  dua jenis  utama, yaitu binary  classification  dan multiclass  classification. 
+
+Model binary classification  digunakan ketika algoritma  harus membedakan antara 
+
+dua kelas  saja, sedangkan multiclass  classification  melibatkan  pengelompokan  ke 
+
+dalam  tiga  kelas  atau  lebih  secara  bersamaan.  Untuk  menyelesaikan  berbagai 
+
+tingkat  kerumitan  pemisahan  data  ini,  terdapat  beragam  algoritma  yang  lazim 
+
+digunakan, contohnya Logistic Regression yang berbasis peluang statistik, Decision 
+
+Tree  yang membagi  data melalui  aturan bersyarat,  serta  Support Vector  Machine 
+
+yang  berupaya  mencari  batas  pemisah 
+
+terbaik  antar  kelas.  Selain  metode 
+
+konvensional  tersebut,  Neural  Network  menjadi  sangat  dominan  untuk  tugas 
+
+klasifikasi,  terutama ketika sistem berhadapan dengan data berdimensi banyak dan 
+
+menuntut pengenalan fitur tingkat lanjut (Ananda dkk., 2024). 
+
+Gambar 2.4 Visualisasi  Binary Classification  dan Multiclass Classification 
+
+Sumber Gambar: (Firmansyah, 2025) 
+
+Berdasarkan Gambar 2.4, perbedaan konseptual antara kedua jenis klasifikasi 
+
+tersebut dapat diamati secara visual melalui pembentukan batas keputusan (decision 
+
+17 
+
+ 
+ 
+boundary). Pada ilustrasi binary classification  di sebelah kiri, algoritma hanya perlu 
+
+menarik  satu garis  pemisah  untuk mengelompokkan  titik-titik data ke  dalam dua 
+
+kelas  yang  saling  berseberangan  (diwakili  oleh  tanda silang  merah  dan  segitiga 
+
+ungu). Sebaliknya, pada ilustrasi  multiclass  classification  di sebelah kanan, tingkat 
+
+kerumitan  komputasinya  meningkat  karena  sistem  harus  membangun  beberapa 
+
+garis batas pemisah sekaligus  untuk mengategorikan tiga atau lebih kelompok data 
+
+yang berbeda (tanda silang  merah, segitiga  ungu, lingkaran  biru, dan kotak hijau). 
+
+Kemampuan membagi  ruang data dengan garis-garis  pemisah  inilah yang menjadi 
+
+inti keberhasilan  model dalam mengenali  pola data (Ananda dkk., 2024). 
+
+Kemampuan adaptasi dan generalisasi yang tinggi membuat model klasifikasi 
+
+dapat  diterapkan  secara  luas  di  berbagai  bidang,  misalnya  untuk  membantu 
+
+diagnosis medis berdasarkan rekam medis pasien atau untuk pengenalan objek dan 
+
+wajah  dalam  citra.  Cakupan  penerapan  yang  tidak terbatas  pada  data angka  ini 
+
+menunjukkan bahwa klasifikasi merupakan metode yang fleksibel untuk mengubah 
+
+beragam jenis masukan menjadi keputusan kategori. 
+
+Selain  memproses  angka  dan gambar,  prinsip  dasar  klasifikasi  juga  sangat 
+
+penting  dalam  menganalisis  informasi  berbentuk  teks  yang  pada dasarnya  tidak 
+
+terstruktur.  Algoritma  klasifikasi,  termasuk  model  berbasis  jaringan  saraf  tiruan, 
+
+mampu melakukan text classification,  seperti menentukan topik utama dari sebuah 
+
+dokumen  atau  menilai  sentimen  dari  suatu  opini  tertulis  (Purwitasari  &  Soleh, 
+
+2022).  Meskipun  demikian,  proses  mengubah  susunan  kata  dari  bahasa  alami 
+
+menjadi  representasi  fitur  matematis  agar  dapat  diproses  oleh  model  sangatlah 
+
+rumit  dan membutuhkan  teknik komputasi bahasa  yang khusus. Tantangan dalam 
+
+menerjemahkan  teks menjadi angka dan mengekstraksi makna dari bahasa manusia 
+
+inilah  yang  menjadi  dasar  bagi  pengembangan  sistem  pemrosesan  bahasa,  yang 
+
+akan dibahas lebih mendalam pada subbab berikutnya mengenai  Natural Language 
+
+Processing. 
+
+2.5.  Natural Language Processing (NLP) 
+
+Natural  Language  Processing  (NLP)  merupakan  cabang  dari  kecerdasan 
+
+buatan dan ilmu  bahasa  komputasi  yang berfokus pada interaksi  antara komputer 
+
+dan bahasa  manusia.  Tujuan  utama NLP adalah menjembatani  komunikasi  antara 
+
+18 
+
+ 
+manusia  dan mesin,  yaitu  dengan mengubah  teks yang  tidak terstruktur  menjadi 
+
+format data yang dapat diolah secara matematis (Purwitasari & Soleh, 2022). Dalam 
+
+sistem  cerdas  seperti  Artificial  Neural  Network  (ANN),  NLP sangat  dibutuhkan 
+
+karena mesin pada dasarnya tidak bisa memahami  huruf atau teks secara langsung. 
+
+Oleh  karena  itu, kata-kata tersebut harus  diubah menjadi  angka  atau representasi 
+
+numerik  agar mesin  dapat melakukan  perhitungan untuk tugas klasifikasi  maupun 
+
+prediksi. 
+
+Secara  umum,  pengolahan  bahasa  alami  menghadapi  sejumlah  tantangan. 
+
+Salah  satu  tantangan  utamanya  adalah  tingginya  ambiguitas  atau  makna  ganda 
+
+dalam bahasa manusia.  Sebagai  contoh, satu kata bisa memiliki  arti yang berbeda 
+
+tergantung pada konteks kalimatnya,  atau sebaliknya,  beberapa kata yang berbeda 
+
+dapat merujuk pada maksud yang sama (sinonim).  Selain itu, sistem komputasi juga 
+
+umumnya  harus berhadapan dengan variasi  gaya bahasa,  singkatan, serta susunan 
+
+kalimat  yang  tidak  beraturan  pada  teks  nonformal.  Untuk  mengatasi  hambatan 
+
+tersebut, NLP umumnya menggunakan serangkaian tahapan analisis agar komputer 
+
+tidak  hanya  sekadar  membaca  susunan  kata,  tetapi  juga  memahami  makna  di 
+
+baliknya. 
+
+Secara  umum,  proses  kerja  NLP  dalam  sistem  machine 
+
+learning 
+
+diimplementasikan  melalui  sebuah  pipeline  atau  tahapan  berurutan.  Tahapan-
+
+tahapan tersebut dapat diuraikan sebagai berikut: 
+
+1.  Pengumpulan Data (Text  Acquisition):  Tahap  awal di mana sekumpulan 
+
+data teks mentah dikumpulkan dari berbagai sumber untuk dijadikan korpus 
+
+atau bahan pembelajaran  mesin. 
+
+2.  Prapemrosesan  (Preprocessing):  Tahap  pembersihan  dan  perapian  teks 
+
+mentah  agar  lebih  terstandarisasi.  Proses  ini  meliputi  pemecahan  kalimat 
+
+menjadi  potongan  kata  tunggal  (tokenization),  penghapusan  kata  hubung 
+
+yang tidak bermakna (stopword removal), serta penyeragaman bentuk huruf 
+
+dan kata. 
+
+3.  Ekstraksi  Fitur (Feature  Extraction):  Tahap  pengubahan kata-kata yang 
+
+sudah bersih dan seragam menjadi susunan matriks angka. Pendekatan yang 
+
+sering  digunakan  antara  lain  pembobotan  frekuensi  kata  atau  word 
+
+19 
+
+ 
+embedding,  yaitu  metode  yang  mengubah  kata  menjadi  vektor  nilai  agar 
+
+mesin  dapat menghitung  kemiripan  maknanya  secara  matematis  (Hanum 
+
+dkk., 2025). 
+
+4.  Pembangunan  Model  (Model  Building):  Tahap  akhir  di  mana  hasil 
+
+ekstraksi fitur numerik tersebut dimasukkan ke dalam algoritma kecerdasan 
+
+buatan untuk dilatih agar mampu mengenali pola dan memberikan keluaran 
+
+prediksi yang tepat. 
+
+Untuk mendukung tahapan tersebut, NLP secara  umum  juga  dapat dibantu 
+
+oleh teknik linguistik  yang lebih  spesifik, misalnya  Part-of-Speech  (POS) tagging 
+
+yang bertugas mengenali jenis kata (apakah sebuah kata merupakan kata benda atau 
+
+kata  kerja  berdasarkan  posisinya),  serta  Named Entity  Recognition  (NER)  untuk 
+
+mengidentifikasi objek spesifik seperti nama orang atau lokasi di dalam teks. 
+
+Khusus untuk pengolahan teks berbahasa Indonesia, tantangan komputasinya 
+
+menjadi  lebih  kompleks  karena  struktur  morfologinya  yang  kaya  akan  imbuhan 
+
+serta  banyaknya ragam  bahasa  tidak baku  dan kata serapan  asing  (Purwitasari  & 
+
+Soleh,  2022).  Kerumitan  ini  menunjukkan  bahwa  teks  mentah  belum  dapat 
+
+langsung  diolah  oleh  model  machine  learning,  sehingga  diperlukan  serangkaian 
+
+tahapan pembersihan  data yang terstruktur. Tahapan  tersebut akan  dibahas secara 
+
+mendalam pada subbab berikutnya mengenai pengolahan teks (text preprocessing). 
+
+2.6.  Pengolahan Teks (Text Preprocessing) 
+
+Pengolahan  teks atau  text  preprocessing  merupakan  tahapan  krusial  dalam 
+
+alur kerja  Natural Language Processing  (NLP). Secara  umum, text  preprocessing 
+
+adalah  serangkaian 
+
+teknik  komputasi  untuk  membersihkan,  merapikan,  dan 
+
+mengubah  teks  mentah  yang  tidak  beraturan  menjadi  data  yang  terstandarisasi. 
+
+Algoritma  machine  learning  pada  dasarnya  tidak  memiliki  kemampuan  untuk 
+
+menoleransi  variasi  cara  penulisan  atau  kesalahan  ketik  yang  sering  dilakukan 
+
+manusia.  Oleh karena  itu,  kualitas  prediksi  dari sebuah  model sangat bergantung 
+
+pada seberapa  bersih  data masukan  yang  diberikan  (Purwitasari  &  Soleh,  2022). 
+
+Tujuan  utama  dari  tahap  ini  adalah  membuang  gangguan  (noise)  pada teks  dan 
+
+menyederhanakan  jumlah  kosakata,  sehingga  komputer  bisa  lebih  fokus mencari 
+
+pola kata yang benar-benar penting. 
+
+20 
+
+ 
+Secara  operasional,  text  preprocessing  dilakukan  secara  berurutan  melalui 
+
+beberapa tahapan utama, yaitu: 
+
+1.  Pembersihan  Karakter  (Filtering):  Tahapan 
+
+ini  dilakukan  untuk 
+
+menghapus  karakter-karakter  yang  dianggap  sebagai  gangguan  (noise) 
+
+dalam proses pengolahan teks. Karakter tersebut meliputi angka (0-9), tanda 
+
+baca (seperti titik, koma, tanda kurung), serta simbol-simbol  khusus lainnya. 
+
+Pada kasus  data resep  masakan,  tahap  ini  sangat  vital  untuk  memisahkan 
+
+nama bahan dari atribut ukuran atau kuantitas (misalnya  menghapus angka 
+
+"500" dari teks "500 gram gula") sehingga model hanya mempelajari  entitas 
+
+bahannya saja. 
+
+2.  Penyeragaman  Huruf  (Case  Folding):  Tahap  untuk  menormalkan 
+
+karakter  dengan  cara  mengubah  seluruh  huruf  dalam  dokumen  menjadi 
+
+bentuk yang seragam,  biasanya  menjadi huruf kecil (lowercase).  Tahap ini 
+
+sangat penting agar  komputer menganggap  kata yang sama  meskipun  satu 
+
+menggunakan  huruf kapital  dan lainnya  huruf kecil  sebagai  satu kesatuan 
+
+makna yang identik. 
+
+3.  Pemotongan Kata (Tokenization):  Tahap memecah kalimat yang panjang 
+
+menjadi  potongan-potongan  kata 
+
+tunggal 
+
+(disebut  sebagai 
+
+token) 
+
+berdasarkan  letak  spasi  maupun  tanda baca.  Kumpulan  token  inilah  yang 
+
+nantinya akan dihitung dan dianalisis oleh komputer. 
+
+4.  Penghapusan  Kata  Hubung  (Stopword  Removal):  Tahap  membuang 
+
+kata-kata yang sangat sering  muncul  tetapi tidak memberikan  arti penting 
+
+pada kalimat,  seperti konjungsi  atau preposisi  (contoh: "dan", "yang",  "di", 
+
+"itu").  Penghapusan  kata-kata 
+
+ini  akan  sangat  meringankan  beban 
+
+perhitungan  komputer  karena  mengurangi  jumlah  kata  yang  tidak  perlu 
+
+diproses (Hanum dkk., 2025). 
+
+5.  Pengembalian  Kata  Dasar  (Stemming  dan  Lemmatization):  Tahap 
+
+memotong imbuhan untuk mengembalikan  suatu token ke bentuk dasarnya. 
+
+Terdapat  dua pendekatan utama:  stemming  dan lemmatization.  Stemming 
+
+bekerja  dengan sangat cepat karena hanya memotong  awalan atau akhiran 
+
+secara  langsung  berdasarkan  aturan  baku  tanpa  memedulikan  makna 
+
+21 
+
+ 
+akhirnya.  Sebaliknya,  lemmatization  bekerja  lebih  teliti  dengan  melihat 
+
+konteks tata bahasa  untuk memastikan  kata yang dipotong tetap memiliki 
+
+makna  yang  benar  dalam  kamus.  Biasanya,  stemming  dipilih  untuk 
+
+mempercepat  pemrosesan  data  berskala  besar,  sementara  lemmatization 
+
+digunakan jika ketepatan makna sangat diutamakan. 
+
+Khusus  untuk  korpus  berbahasa  Indonesia,  proses  pemotongan  imbuhan 
+
+(stemming)  dan  perapian  teks  menghadapi  tantangan  yang  jauh  lebih  rumit 
+
+dibandingkan  bahasa  Inggris.  Bahasa  Indonesia  sangat  kaya  akan  penggunaan 
+
+imbuhan,  baik  berupa awalan  (prefiks),  akhiran  (sufiks),  sisipan  (infiks),  maupun 
+
+gabungan  di antaranya  (konfiks).  Penambahan  imbuhan  ini  dapat mengubah  satu 
+
+kata  dasar  menjadi  banyak  variasi  bentuk  dengan  makna  yang  sangat  berbeda 
+
+(Purwitasari  &  Soleh,  2022).  Selain  itu,  banyaknya  singkatan  tidak baku  dalam 
+
+bahasa  gaul,  kata  majemuk,  serta  kata serapan  asing  yang  belum  baku  menuntut 
+
+penggunaan aturan algoritma  khusus (misalnya  algoritma  Nazief &  Adriani) agar 
+
+pemotongan kata bahasa Indonesia menjadi lebih akurat. 
+
+Keseluruhan  tahapan  text  preprocessing 
+
+ini  mutlak  diperlukan  untuk 
+
+menjamin  kualitas  fitur  sebelum  data  tersebut  dipelajari  oleh  model  machine 
+
+learning. Hasil akhir dari tahap ini adalah kumpulan kata (token) yang lebih bersih, 
+
+padat, dan mewakili  inti  informasi  dari  teks aslinya.  Meskipun  demikian,  model 
+
+klasifikasi  seperti  jaringan  saraf tiruan  tetap tidak dapat menerima  teks ini  secara 
+
+langsung  sebagai masukannya.  Kumpulan  token yang sudah bersih  tersebut harus 
+
+dihitung,  diberi  bobot,  dan  diubah  menjadi  format  angka  matematis.  Proses 
+
+pengubahan  teks  menjadi  angka  inilah  yang  akan  dibahas  lebih  mendalam  pada 
+
+subbab berikutnya  mengenai  Term Frequency-Inverse  Document Frequency (TF-
+
+IDF). 
+
+2.7.  TF-IDF (Term Frequency-Inverse Document Frequency) 
+
+Setelah  melalui  tahap  pengolahan  teks  (text  preprocessing),  potongan-
+
+potongan kata  atau  token  yang  dihasilkan  belum  dapat  diproses  secara  langsung 
+
+oleh  algoritma  machine  learning.  Model  klasifikasi  seperti  jaringan  saraf  tiruan 
+
+membutuhkan  data  dalam  bentuk  angka  agar  perhitungan  matematis  dapat 
+
+dilakukan.  Oleh  karena  itu,  diperlukan  sebuah  tahap  ekstraksi  fitur  (feature 
+
+22 
+
+ 
+extraction)  untuk  mengubah  kata-kata  tersebut  menjadi  susunan  nilai  numerik. 
+
+Salah satu metode pembobotan kata yang paling umum dan fundamental digunakan 
+
+dalam  pengolahan  bahasa  alami  adalah  Term  Frequency-Inverse  Document 
+
+Frequency  atau  TF-IDF  (Hanum  dkk.,  2025).  Secara  konsep,  TF-IDF  berfungsi 
+
+untuk  memberikan  bobot  atau  nilai  pada  setiap  kata  berdasarkan  tingkat 
+
+kepentingannya  di  dalam  suatu  dokumen,  jika  dibandingkan  dengan  seluruh 
+
+dokumen yang ada. 
+
+Metode pembobotan TF-IDF terdiri dari dua komponen perhitungan utama. 
+
+Komponen  pertama  adalah  Term  Frequency  (TF),  yaitu  nilai  yang  mengukur 
+
+seberapa  sering  sebuah  kata muncul  di dalam satu  dokumen tunggal. Logikanya, 
+
+semakin  sering  sebuah  kata muncul  pada dokumen tertentu, maka  semakin  besar 
+
+nilai  TF kata tersebut pada dokumen itu. Namun, perhitungan TF saja tidak cukup 
+
+karena  kata-kata umum  yang sering  muncul  akan mendapatkan nilai  tinggi meski 
+
+tidak memiliki  makna  penting. Oleh sebab itu, diperlukan  komponen kedua yaitu 
+
+Inverse  Document Frequency (IDF). IDF berfungsi mengukur  tingkat kelangkaan 
+
+sebuah  kata  pada  seluruh  kumpulan  dokumen  (corpus).  Kata  unik  yang  hanya 
+
+muncul  di sedikit dokumen akan memiliki  nilai  IDF yang tinggi,  sedangkan kata 
+
+yang muncul di hampir  semua dokumen akan diberi nilai  rendah karena  dianggap 
+
+tidak memiliki  ciri khas yang kuat. 
+
+Secara  matematis,  tahap  perhitungan  pembobotan  TF-IDF  dapat diuraikan 
+
+melalui  beberapa persamaan berikut: 
+
+𝑇𝐹(𝑡, 𝑑) = 𝐽𝑢𝑚𝑙𝑎ℎ  𝑘𝑒𝑚𝑢𝑛𝑐𝑢𝑙𝑎𝑛  𝑘𝑎𝑡𝑎  𝑡 𝑑𝑎𝑙𝑎𝑚 𝑑𝑜𝑘𝑢𝑚𝑒𝑛  𝑑
+
+𝐽𝑢𝑚𝑙𝑎ℎ  𝑡𝑜𝑡𝑎𝑙  𝑘𝑎𝑡𝑎  𝑑𝑎𝑙𝑎𝑚 𝑑𝑜𝑘𝑢𝑚𝑒𝑛 𝑑
+
+ Rumus 1 
+
+𝐼𝐷𝐹(𝑡) = log
+
+𝑇𝑜𝑡𝑎𝑙  𝑗𝑢𝑚𝑙𝑎ℎ  𝑑𝑜𝑘𝑢𝑚𝑒𝑛  𝑑𝑎𝑙𝑎𝑚 𝑘𝑜𝑟𝑝𝑢𝑠  (𝐷)
+
+𝐽𝑢𝑚𝑙𝑎 ℎ  𝑑𝑜𝑘𝑢𝑚𝑒𝑛  𝑦𝑎𝑛𝑔  𝑚𝑒𝑛𝑔𝑎𝑛𝑑𝑢𝑛𝑔  𝑘𝑎𝑡𝑎  𝑡
+
+ Rumus 2 
+
+𝑇𝐹 − 𝐼𝐷𝐹(𝑡, 𝑑) = 𝑇𝐹(𝑡, 𝑑) 𝑥 𝐼𝐷𝐹(𝑡) Rumus 3 
+
+23 
+
+ 
+ 
+ 
+Gambar 2.5 Diagram Alur Proses Perhitungan TF-IDF 
+
+Sumber Gambar: (Rahmaddeni dkk., 2022)  
+
+Gambar 2.5 menunjukkan  diagram alur  lengkap proses  perhitungan TF-IDF 
+
+yang  dimulai  dari  hasil  stemming,  dilanjutkan  dengan  penghitungan  Term 
+
+Frequency (TF),  Document Frequency (DF), Inverse  Document Frequency (IDF), 
+
+hingga  diperoleh  nilai  akhir  TF-IDF  yang  disimpan  sebagai  hasil  perhitungan. 
+
+Diagram  ini  memberikan  gambaran  visual  yang  jelas  mengenai  urutan  langkah 
+
+komputasi yang harus dilakukan sebelum  data teks dapat digunakan sebagai  input 
+
+model machine learning. 
+
+Berdasarkan perhitungan pada rumus-rumus  di atas, hasil  akhir  dari metode 
+
+ekstraksi  fitur  ini  akan  membentuk  sebuah  matriks  term-document  berdimensi 
+
+tinggi.  Di  dalam  matriks  tersebut,  setiap  dokumen  diwakili  oleh  sebuah  baris 
+
+(vektor),  sedangkan  kolomnya  berisi  kata-kata  unik  dari  seluruh  kumpulan  data. 
+
+Perpotongan antara baris  dan kolom  tersebut diisi oleh nilai  bobot angka TF-IDF. 
+
+Keunggulan utama dari pendekatan ini  terletak pada kesederhanaan logikanya dan 
+
+efisiensi  komputasinya,  sehingga  andal  untuk  digunakan  pada  berbagai  tugas 
+
+klasifikasi  teks skala besar (Febrywinata dkk., 2025). 
+
+24 
+
+ 
+ 
+Matriks  angka  yang  dihasilkan  dari  proses  TF-IDF  inilah  yang  kemudian 
+
+berperan  sebagai  jembatan  utama  antara  bahasa  alami  manusia  dengan  proses 
+
+komputasi.  Selain  dapat digunakan  sebagai  data masukan  (input)  bagi  algoritma 
+
+kecerdasan  buatan,  representasi  vektor  TF-IDF 
+
+ini 
+
+juga  memungkinkan 
+
+dilakukannya  pengukuran  tingkat  kemiripan  antar  dokumen.  Salah  satu  metode 
+
+yang  paling  umum  digunakan  untuk  mengukur  kemiripan  antar  vektor  TF-IDF 
+
+tersebut adalah Cosine Similarity, yang akan dibahas secara mendalam pada subbab 
+
+berikutnya. 
+
+2.8.  Cosine Similarity 
+
+Cosine Similarity merupakan salah satu metode yang paling umum digunakan 
+
+untuk mengukur tingkat kemiripan  antara dua buah vektor teks. Metode ini bekerja 
+
+dengan  pendekatan  geometri,  yaitu  menghitung  nilai  kosinus  dari  sudut  yang 
+
+terbentuk di antara dua vektor pada ruang multidimensi  (Febrywinata dkk., 2025). 
+
+Salah  satu keunggulan  utamanya adalah hasil  perhitungan  tidak terpengaruh  oleh 
+
+panjang  dokumen, sehingga  nilai  kemiripan  tetap stabil  meskipun  dua dokumen 
+
+memiliki  jumlah kata yang berbeda (Wong & Yoannita, 2026). 
+
+Dalam konteks sistem  rekomendasi berbasis  teks, cosine  similarity  berperan 
+
+sebagai tahap lanjutan setelah proses pembobotan TF-IDF. Setiap dokumen dalam 
+
+penelitian ini berupa daftar bahan pada resep telah direpresentasikan sebagai vektor 
+
+numerik  melalui  TF-IDF.  Cosine  similarity  kemudian  digunakan  untuk 
+
+membandingkan vektor masukan bahan dari pengguna dengan vektor setiap resep 
+
+di  dalam  dataset,  sehingga  sistem  dapat  menentukan  resep  mana  yang  paling 
+
+mendekati ketersediaan bahan pengguna (Wong & Yoannita, 2026). 
+
+Secara matematis, nilai  cosine similarity  antara dua vektor A dan B dihitung 
+
+menggunakan persamaan berikut: 
+
+𝐶𝑜𝑠𝑖𝑛𝑒 𝑆𝑖𝑚𝑖𝑙𝑎𝑟𝑖𝑡𝑦(𝐴, 𝐵) =
+
+√∑
+
+Keterangan: 
+
+∑
+
+𝑛
+𝑖=1
+𝑛
+2
+𝑖=1 √∑
+𝐴𝑖
+
+𝐴𝑖 𝐵𝑖
+𝑛
+𝑖=1
+
+ Rumus 4 
+
+2
+𝐵𝑖
+
+A dan B = vektor representasi dari dua dokumen yang dibandingkan; 
+
+𝐴𝑖dan 𝐵𝑖= nilai bobot kata ke-i pada masing-masing  vektor dokumen. 
+
+25 
+
+ 
+Gambar 2.6 Ilustrasi Sudut antara Dua Vektor pada Cosine Similarity 
+
+Sumber Gambar: (Shivanandhan, 2025) 
+
+Gambar  2.6  mengilustrasikan  konsep  dasar  cosine  similarity  secara 
+
+geometris, yaitu dua buah vektor (A dan B) yang membentuk sudut θ pada sebuah 
+
+ruang.  Semakin  kecil  sudut  θ  di  antara  kedua  vektor,  semakin  besar  nilai 
+
+kosinusnya,  yang  berarti  kedua dokumen  semakin  mirip.  Secara  geometris  nilai 
+
+kemiripan  ini  setara  dengan  perbandingan  dot  product  kedua  vektor  terhadap 
+
+perkalian  besarannya (magnitude), sebagaimana telah dirumuskan pada Rumus 4. 
+
+Nilai yang dihasilkan oleh cosine similarity  berada pada rentang 0 hingga 1. 
+
+Nilai  yang  mendekati  1  menunjukkan  bahwa  kedua  vektor  memiliki  tingkat 
+
+kemiripan  yang  sangat  tinggi,  sedangkan  nilai  yang  mendekati  0  menunjukkan 
+
+bahwa  keduanya  hampir  tidak  memiliki  kesamaan  (Febrywinata  dkk.,  2025). 
+
+Berdasarkan  nilai  inilah  resep-resep  diurutkan,  sehingga  resep  dengan  skor 
+
+kemiripan  tertinggi  ditempatkan  sebagai  rekomendasi  teratas  bagi  pengguna. 
+
+Setelah  sistem  mampu  menghasilkan  rekomendasi,  langkah  selanjutnya  adalah 
+
+mengukur  tingkat keberhasilan  dan ketepatannya, yang akan dibahas pada subbab 
+
+berikutnya mengenai  evaluasi model. 
+
+2.9.  Evaluasi Model 
+
+Tahapan  komputasi  dalam  Natural  Language  Processing  (NLP)  maupun 
+
+machine  learning  tidak  berakhir  setelah  model  selesai  dilatih  menggunakan 
+
+representasi  numerik  seperti  TF-IDF.  Model  klasifikasi  yang  telah  mempelajari 
+
+pola  dari  data pelatihan  belum  dapat langsung  dianggap  andal untuk  digunakan, 
+
+26 
+
+ 
+ 
+karena  performanya  harus  dibuktikan  melalui  proses  evaluasi.  Evaluasi  model 
+
+merupakan  proses  sistematis  untuk  mengukur  kinerja  prediksi  serta  menilai 
+
+kemampuan model dalam melakukan generalisasi  terhadap data yang belum pernah 
+
+dilihat  sebelumnya  (Tarigan  dkk.,  2023).  Melalui  evaluasi,  peneliti  dapat 
+
+mengidentifikasi  indikasi  overfitting  (model  terlalu  menyesuaikan  data  latih) 
+
+maupun underfitting  (model gagal menangkap pola data). 
+
+Untuk  memastikan  evaluasi  bersifat  objektif,  penelitian  ini  menggunakan 
+
+konsep pemisahan data (train-test  split), yaitu membagi dataset menjadi dua bagian 
+
+yang  terpisah:  data latih  (training  data)  dan  data  uji  (testing  data).  Data  latih 
+
+digunakan pada proses pembelajaran  dan penyesuaian parameter model, sedangkan 
+
+data uji  digunakan murni  untuk menguji  ketepatan prediksi pada data baru. Tanpa 
+
+pemisahan  ini,  model  dapat  diuji  menggunakan  data  yang  sama  dengan  data 
+
+pelatihan  sehingga  menghasilkan  nilai  performa  yang  tampak  tinggi  tetapi tidak 
+
+merepresentasikan  kemampuan generalisasi. 
+
+Dalam 
+
+tugas  klasifikasi,  fondasi  evaluasi  performa  model  umumnya 
+
+menggunakan  confusion  matrix,  yaitu  tabel  yang  membandingkan  label  prediksi 
+
+model  dengan label  aktual (ground  truth)  pada data uji.  Confusion  matrix  terdiri 
+
+dari empat komponen utama: True Positive  (TP)  ketika model memprediksi  kelas 
+
+positif dengan benar, True Negative  (TN) ketika model memprediksi  kelas negatif 
+
+dengan  benar,  False  Positive  (FP)  ketika  model  memprediksi  positif  padahal 
+
+aktualnya  negatif,  dan  False  Negative  (FN)  ketika  model  memprediksi  negatif 
+
+padahal aktualnya positif (Tarigan  dkk., 2023). 
+
+27 
+
+ 
+Gambar 2.7 Ilustrasi Confusion Matrix 
+
+Sumber Gambar: (Rina, 2023) 
+
+Gambar  2.7  menyajikan  ilustrasi  confusion  matrix  yang  menunjukkan 
+
+perbandingan antara nilai  aktual dan nilai  prediksi model dalam  klasifikasi  biner. 
+
+Matriks  ini  memetakan  empat  kemungkinan  hasil  prediksi,  yaitu  True  Positive 
+
+(TP), False Positive  (FP), False Negative (FN), dan True Negative (TN), sehingga 
+
+memberikan  gambaran  visual yang jelas  mengenai jenis  kesalahan yang dilakukan 
+
+oleh model. 
+
+Berdasarkan nilai  TP,  TN,  FP, dan FN, penelitian  ini  menggunakan  metrik 
+
+evaluasi  accuracy,  precision,  recall,  dan F1-score  untuk menilai  performa model 
+
+(Febrywinata dkk., 2025). Rumus metrik evaluasi tersebut adalah sebagai berikut: 
+
+Accuracy =
+
+𝑇𝑃+𝑇𝑁
+
+𝑇𝑃+𝑇𝑁+𝐹𝑃+𝐹𝑁
+
+ Rumus 5 
+
+Precision = 𝑇𝑃
+
+𝑇𝑃+𝐹𝑃
+
+ Rumus 6 
+
+Recall = 𝑇𝑃
+
+𝑇𝑃+𝐹𝑁
+
+ Rumus 7 
+
+𝐹1-𝑆𝑐𝑜𝑟𝑒 = 2 × Precision ×Recall
+Precision +Recall
+
+ Rumus 8 
+
+Accuracy  menunjukkan  proporsi  prediksi  benar  terhadap seluruh  data  uji. 
+
+Namun, agar penilaian  lebih seimbang,  digunakan precision  dan recall.  Precision 
+
+mengukur ketepatan prediksi positif (seberapa banyak prediksi positif yang benar), 
+
+sedangkan  recall  mengukur  kemampuan  model  dalam  menangkap  seluruh  data 
+
+28 
+
+ 
+ 
+positif aktual. Selanjutnya,  F1-score digunakan untuk menyeimbangkan  trade-off 
+
+antara precision  dan recall melalui  rata-rata harmonik  keduanya. 
+
+Hasil  evaluasi  melalui  confusion  matrix  dan metrik-metrik  tersebut menjadi 
+
+dasar untuk menilai apakah performa model sudah memenuhi kebutuhan penelitian. 
+
+Jika performa belum  optimal, perbaikan dapat dilakukan secara iteratif pada tahap 
+
+sebelumnya,  misalnya  pada  text  preprocessing,  konfigurasi  TF-IDF,  atau 
+
+penyesuaian  parameter  pelatihan  model.  Dengan demikian,  evaluasi  model tidak 
+
+hanya berfungsi sebagai  pelaporan  kinerja,  tetapi juga sebagai  umpan balik  untuk 
+
+meningkatkan  kualitas  model.  Rangkaian  proses  pengolahan  data,  pemodelan, 
+
+hingga evaluasi ini selanjutnya membutuhkan kerangka kerja pengembangan yang 
+
+terstruktur,  yang  dibahas  pada  subbab  berikutnya  mengenai  metodologi  CRISP-
+
+DM. 
+
+2.10. CRISP-DM (Cross Industry Standard Process for Data Mining) 
+
+Rangkaian  proses  komputasi  yang  kompleks,  mulai  dari  pengolahan  teks, 
+
+pembangunan  model machine  learning,  hingga  tahap evaluasi,  menuntut adanya 
+
+kerangka kerja konseptual yang terstruktur dan sistematis. Dalam disiplin ilmu data 
+
+dan kecerdasan buatan, salah satu metodologi yang diakui secara luas adalah Cross 
+
+Industry  Standard  Process  for  Data  Mining  (CRISP-DM).  Metodologi  ini 
+
+dirancang  sebagai  standar  lintas  industri  yang  independen  dari  platform  atau 
+
+perangkat lunak tertentu, dengan tujuan memberikan panduan komprehensif dalam 
+
+pelaksanaan  proyek  penggalian  data.  Keberadaan  CRISP-DM  penting  karena 
+
+berfungsi sebagai kerangka payung yang mengintegrasikan tahapan teknis ke dalam 
+
+alur  kerja 
+
+logis,  sehingga  mengurangi 
+
+risiko  kegagalan  proyek  akibat 
+
+ketidaksesuaian  antara  solusi  teknis  dan  tujuan  permasalahan  (Pernanda  dkk., 
+
+2023). 
+
+29 
+
+ 
+Gambar 2.8 Ilustrasi Tahapan Metodologi CRISP-DM 
+
+Sumber Gambar: (Alwi, 2024) 
+
+Gambar  2.8  menyajikan  diagram  lingkaran  yang  mengilustrasikan  enam 
+
+tahapan  CRISP-DM beserta  hubungan  iteratif di antaranya,  dengan elemen  Data 
+
+sebagai  pusat  yang  menghubungkan  seluruh  proses.  Diagram  ini  secara  visual 
+
+menekankan sifat siklus  yang tidak linier,  di mana setiap tahap dapat memberikan 
+
+umpan balik (feedback loop) ke tahap sebelumnya untuk perbaikan berkelanjutan. 
+
+Secara operasional,  CRISP-DM terdiri atas enam tahapan utama yang saling 
+
+berkesinambungan  (Pernanda dkk., 2023), yaitu: 
+
+1.  Business  Understanding  (Pemahaman  Bisnis)  –  pendefinisian  tujuan 
+
+proyek, 
+
+identifikasi  konteks  permasalahan,  serta  penentuan  kriteria 
+
+keberhasilan. 
+
+2.  Data  Understanding  (Pemahaman  Data)  – pengumpulan  dan eksplorasi 
+
+data  mentah  untuk  mengidentifikasi  karakteristik  serta  permasalahan 
+
+kualitas data. 
+
+3.  Data  Preparation 
+
+(Persiapan  Data)  –  pembersihan  data, 
+
+text 
+
+preprocessing,  dan  rekayasa  fitur  (feature  engineering)  agar  data  siap 
+
+digunakan. 
+
+30 
+
+ 
+ 
+4.  Modeling  (Pemodelan)  –  pemilihan  algoritma,  pelatihan  model,  dan 
+
+penyesuaian parameter (tuning). 
+
+5.  Evaluation  (Evaluasi)  –  peninjauan  performa  model  berdasarkan  metrik 
+
+evaluasi dan kesesuaian dengan tujuan bisnis. 
+
+6.  Deployment 
+
+(Penerapan)  – 
+
+implementasi 
+
+solusi  ke 
+
+lingkungan 
+
+penggunaan, termasuk pemantauan dan pemeliharaan  sistem. 
+
+Karakteristik  penting  CRISP-DM  yang  membedakannya  dari  pendekatan 
+
+linier adalah sifatnya yang iteratif. Keenam tahapan tersebut tidak berjalan satu arah 
+
+secara  kaku,  melainkan  memungkinkan  adanya  umpan  balik  dan  perbaikan 
+
+berulang (feedback loop). Hasil evaluasi yang kurang memuaskan, misalnya,  dapat 
+
+mengembalikan  proses  ke  tahap pemodelan  atau persiapan  data untuk perbaikan 
+
+lebih lanjut. 
+
+Adopsi  CRISP-DM yang  luas  menjadikannya  kerangka  kerja  yang  umum 
+
+digunakan  dalam  berbagai  domain  karena  menyediakan  struktur  sistematis  dan 
+
+praktik terbaik dalam pengembangan solusi berbasis data. Dalam konteks penelitian 
+
+berbasis  teks  seperti  sistem  rekomendasi  resep  masakan  Indonesia,  CRISP-DM 
+
+sangat  relevan  karena  mampu  memetakan  proses  pengolahan  bahasa  alami  ke 
+
+dalam  alur  kerja  yang  jelas,  terutama  pada  fase  Data  Understanding  dan Data 
+
+Preparation  yang melibatkan  variasi  penamaan  bahan, ketidakseragaman  satuan, 
+
+serta relasi substitusi bahan yang tidak selalu eksplisit. Oleh karena itu, pemahaman 
+
+terminologi  dan  karakteristik  data  kuliner  menjadi  landasan  penting  untuk 
+
+menerapkan  CRISP-DM secara  tepat. Pembahasan  mengenai  konsep dan struktur 
+
+data resep tersebut akan diuraikan pada subbab berikutnya mengenai Teori  Resep. 
+
+2.11. Teori Resep 
+
+Dalam  bidang  ilmu  komputer  dan sistem  informasi,  sebuah  resep  masakan 
+
+tidak hanya dipandang sebagai  panduan praktis  untuk mengolah  makanan,  tetapi 
+
+juga sebagai data yang terstruktur. Secara umum, resep dapat didefinisikan sebagai 
+
+sekumpulan 
+
+instruksi 
+
+terstruktur  untuk  mengubah  sejumlah  bahan  mentah 
+
+(ingredients)  menjadi  sebuah  hidangan  melalui  proses  memasak  tertentu. Ketika 
+
+resep  diolah dalam ranah  Natural  Language Processing  (NLP) dan pembelajaran 
+
+mesin,  teks  resep  perlu  diurai  dan direpresentasikan  secara  komputasional  agar 
+
+31 
+
+ 
+mesin dapat memahami,  mencocokkan, serta merekomendasikan resep berdasarkan 
+
+masukan  pengguna.  Oleh  karena 
+
+itu,  pemahaman  mengenai  struktur  dan 
+
+karakteristik  linguistik  sebuah  resep  menjadi  landasan  penting  sebelum  sistem 
+
+rekomendasi dibangun (Mulyawan & Lestari, 2019). 
+
+Secara  umum,  sebuah  resep  masakan  terdiri  atas  tiga  komponen  utama. 
+
+Komponen pertama  adalah metadata resep,  yang  mencakup  atribut umum  seperti 
+
+nama  hidangan,  kategori  masakan,  takaran  porsi  (yield),  waktu  persiapan,  serta 
+
+taksiran  nilai  gizi.  Komponen kedua yang paling  penting bagi sistem  pencocokan 
+
+adalah  daftar bahan  (ingredients  list).  Setiap  entri  pada daftar bahan  umumnya 
+
+mengandung  tiga  sub-elemen:  nama  bahan,  kuantitas,  dan  satuan  pengukuran 
+
+(seperti  gram,  mililiter,  atau  sendok). Komponen  ketiga  adalah  langkah-langkah 
+
+pembuatan 
+
+(cooking 
+
+instructions),  yaitu  urutan 
+
+teknik  memasak,  urutan 
+
+pencampuran  bahan,  serta  parameter  waktu dan suhu  (Lestari  &  Kusrini,  2012). 
+
+Ketiga komponen inilah  yang  menjadi sasaran  utama  dalam proses  ekstraksi  fitur 
+
+seperti TF-IDF yang telah dibahas pada subbab sebelumnya. 
+
+Meskipun terlihat terstruktur, karakteristik data resep di dunia nyata memiliki 
+
+tingkat  ketidakteraturan  dan  ketidakpresisian  yang  tinggi.  Berbeda  dengan  data 
+
+transaksi  finansial atau data sensor  yang bersifat pasti, penulisan  resep  sering kali 
+
+melibatkan  variasi  penamaan  bahan,  yaitu  satu  bahan  yang  sama  dapat  ditulis 
+
+dengan berbagai istilah lokal. Selain itu, terdapat banyak ketidakkonsistenan dalam 
+
+penggunaan  satuan  ukur,  seperti 
+
+istilah  "secukupnya",  "sejumput",  atau 
+
+"segenggam"  yang  sulit  dikuantifikasi  ke  dalam  bentuk angka  baku.  Resep  juga 
+
+memiliki  sifat fleksibilitas  substitusi, yaitu ketiadaan satu bahan  sering  kali  dapat 
+
+digantikan  oleh  bahan  lain  yang  memiliki  fungsi  serupa  tanpa  mengubah  hasil 
+
+masakan secara berarti (Wong & Yoannita, 2026). 
+
+Untuk mengatasi  kompleksitas  tersebut,  diperlukan  pendekatan pemodelan 
+
+yang dikenal sebagai ontologi kuliner (culinary  ontology). Ontologi kuliner  adalah 
+
+kerangka  hierarkis  yang  memetakan  hubungan  antarbahan  masakan,  klasifikasi 
+
+teknik  memasak,  serta  atribut rasa  dan tekstur. Melalui  ontologi  ini,  mesin  tidak 
+
+hanya  melihat  kata  "bawang  merah"  dan "bawang  putih"  sebagai  dua kata yang 
+
+berbeda, tetapi dapat mengenali  keduanya berada  dalam  kelompok  hierarki  yang 
+
+32 
+
+ 
+sama, yaitu keluarga Allium. Pemetaan hubungan substitusi dan saling  melengkapi 
+
+antarbahan  inilah  yang  penting  diterapkan  dalam  sistem  rekomendasi,  agar 
+
+rekomendasi  yang  dihasilkan  tetap logis  dan relevan  dengan ketersediaan  bahan 
+
+pengguna (Mulyawan & Lestari, 2019). 
+
+Karakteristik  teks  resep  yang  banyak  mengandung  konteks  implisit  dan 
+
+keunikan  bentuk  kata  ini  menegaskan  pentingnya  penerapan  text  preprocessing 
+
+yang tepat. Tantangan dalam merepresentasikan variasi takaran dan penamaan lokal 
+
+menuntut  adanya  normalisasi  istilah  sebelum  vektor  TF-IDF  dihitung.  Tanpa 
+
+pemahaman  yang  cukup mengenai  sifat  dasar resep,  algoritma  machine  learning 
+
+berpotensi  gagal  menangkap  makna  di balik  instruksi  memasak.  Oleh  karena itu, 
+
+perlakuan  resep  sebagai dataset  perlu  diselaraskan  dengan alur  kerja  CRISP-DM, 
+
+mulai  dari  tahap  data  understanding  untuk  memahami  keragaman  teks  kuliner, 
+
+hingga data preparation  untuk menstandarkan format masukannya. 
+
+Setelah  landasan  teori  mengenai  pengolahan  teks,  algoritma  klasifikasi, 
+
+evaluasi  model,  hingga  struktur  data resep  dipahami,  tahapan selanjutnya  adalah 
+
+merancang arsitektur implementasinya. Model yang telah dilatih tidak dapat berdiri 
+
+sendiri;  model 
+
+tersebut  membutuhkan 
+
+lingkungan  operasional  agar  dapat 
+
+berinteraksi  dengan pengguna akhir. Proses transisi  dari model menjadi purwarupa 
+
+perangkat  lunak  yang  berfungsi  ini  membutuhkan  dukungan  infrastruktur  dan 
+
+kerangka kerja antarmuka yang memadai. Konsep, peran, dan arsitektur perangkat 
+
+lunak pengembangan (web framework) yang memfasilitasi  penerapan (deployment) 
+
+model ini akan dibahas pada subbab terakhir mengenai  Framework Web. 
+
+2.12. Framework Web 
+
+Setelah  rangkaian  komputasi  penelitian,  mulai  dari  pemrosesan  teks  resep, 
+
+ekstraksi  fitur  ke  dalam  representasi  numerik,  hingga  pelatihan  model  machine 
+
+learning  selesai  dibangun,  model  yang  dihasilkan  memerlukan 
+
+lingkungan 
+
+operasional  agar  dapat diakses  oleh  pengguna  akhir.  Dalam  rekayasa  perangkat 
+
+lunak  modern,  kebutuhan tersebut  umumnya  difasilitasi  melalui  web framework. 
+
+Secara  definisi,  web  framework  merupakan  abstraksi  perangkat  lunak  yang 
+
+menyediakan 
+
+infrastruktur,  pustaka  dasar  (libraries), 
+
+serta  pola  struktur 
+
+pengembangan  yang  baku  untuk  membangun  dan  memelihara  aplikasi  web 
+
+33 
+
+ 
+interaktif.  Penggunaan  web  framework  bertujuan  untuk  mengurangi  pekerjaan 
+
+pengembangan yang berulang, mempercepat proses penerapan (deployment),  serta 
+
+menerapkan  prinsip  separation  of  concerns  (pemisahan  tanggung  jawab)  antara 
+
+pengelolaan data, logika bisnis, dan antarmuka pengguna (Rahmadani dkk., 2024). 
+
+Dalam  arsitektur aplikasi  web saat ini,  ekosistem  pengembangan  umumnya 
+
+terbagi  menjadi  tiga  komponen  utama,  yaitu  backend,  frontend,  dan  database. 
+
+Backend bertugas menangani logika operasional  di sisi peladen (server-side  logic), 
+
+termasuk pengelolaan rute layanan, otorisasi,  keamanan, dan penyediaan endpoint. 
+
+Frontend  merupakan  lapisan  presentasi  visual  yang berinteraksi  langsung  dengan 
+
+pengguna  (client-side  logic).  Sementara  itu,  database  berfungsi  sebagai  media 
+
+penyimpanan  data persisten,  seperti  data resep,  riwayat  pencarian,  dan  informasi 
+
+sesi pengguna. 
+
+Integrasi  ketiga  komponen 
+
+tersebut  umumnya 
+
+diimplementasikan 
+
+menggunakan  arsitektur client-server  melalui  mekanisme  request-response.  Salah 
+
+satu pola desain yang paling umum  digunakan dalam web framework adalah pola 
+
+MVC (Model-View-Controller). 
+
+Gambar 2.9 Ilustrasi Pola MVC pada Web Framework 
+
+Sumber Gambar: (GeeksforGeeks, 2026) 
+
+Gambar  2.9  mengilustrasikan  pola  MVC  (Model-View-Controller)  yang 
+
+menjadi fondasi banyak web framework. Diagram ini menunjukkan  alur kerja  dari 
+
+request  pengguna hingga response  yang dikembalikan,  dengan Controller  sebagai 
+
+34 
+
+ 
+ 
+pengatur utama, Model sebagai lapisan abstraksi data, dan View sebagai antarmuka 
+
+yang ditampilkan kepada pengguna. 
+
+Sejalan  dengan gambar  tersebut, proses  diawali  ketika  pengguna mengirim 
+
+request  melalui  protokol  HTTP.  Permintaan  tersebut  dipetakan  oleh  modul 
+
+perutean  (routing)  menuju  controller,  yang  kemudian  memanggil  model  untuk 
+
+mengolah  logika  bisnis  dan  berinteraksi  dengan  database.  Setelah  pemrosesan 
+
+selesai, controller  menyusun response dan mengirimkannya kembali ke view untuk 
+
+ditampilkan  pada  antarmuka  pengguna.  Pola  ini  memungkinkan  pemisahan 
+
+tanggung 
+
+jawab  yang 
+
+jelas, 
+
+sehingga  memudahkan  pengembangan  dan 
+
+pemeliharaan  sistem. 
+
+Salah  satu  contoh  web  framework  yang  ringan  dan  populer  adalah  Flask 
+
+(berbasis Python). Flask sering digunakan dalam proyek berbasis  machine learning 
+
+karena  fleksibilitasnya  yang  tinggi,  ukuran  yang  kecil,  serta  kemudahan  dalam 
+
+mengintegrasikan  model Artificial  Neural Network dan deployment ke lingkungan 
+
+produksi (Rahmadani dkk., 2024). 
+
+Selain  mengatur  alur  request-response,  web  framework  yang  baik  juga 
+
+mendukung  aspek  non-fungsional,  seperti  scalability  (kemampuan  menangani 
+
+akses  simultan),  security  (perlindungan  terhadap serangan),  serta  maintainability 
+
+(kemudahan  pemeliharaan).  Dengan  demikian,  web  framework  berperan  penting 
+
+untuk  menjembatani  model  analitik  yang  bersifat  teoretis  agar  dapat  diterapkan 
+
+menjadi sistem yang dapat digunakan secara nyata oleh pengguna. 
+
+Secara  keseluruhan,  uraian  teoretis  pada  BAB  II  mulai  dari  kecerdasan 
+
+buatan, Artificial  Neural Networks, Natural Language Processing (NLP), ekstraksi 
+
+fitur TF-IDF dan cosine similarity,  metodologi CRISP-DM, hingga web framework 
+
+membangun  landasan  konseptual  bagi  implementasi  sistem  pada  penelitian  ini. 
+
+Setelah  fondasi  tersebut  dipaparkan,  pembahasan  selanjutnya  akan  beralih  dari 
+
+ranah teoretis (what and why) menuju ranah implementatif (how). Oleh karena itu, 
+
+detail  arsitektur  penerapan,  skema  pembangunan  aplikasi,  mekanisme  pelatihan 
+
+model, serta tahapan metodologi penelitian akan diuraikan pada BAB III. 
+
+35 
+
+ 
+ 
+ 
+BAB III  
+
+METODOLOGI PENELITIAN 
+
+Penelitian  ini  dilaksanakan  menggunakan  kerangka  kerja  Cross  Industry 
+
+Standard Process for Data Mining (CRISP-DM), yaitu metodologi terstruktur yang 
+
+umum  diterapkan  pada  pengembangan  sistem  berbasis  machine  learning  dan 
+
+penambangan  teks  (text  mining)  (Pernanda  dkk.,  2023).  Pendekatan  ini  dipilih 
+
+untuk menjaga  agar  alur  pengembangan  sistem  rekomendasi  tetap sistematis  dan 
+
+terukur,  mulai  dari  pemahaman  masalah  hingga  penerapan  model  ke lingkungan 
+
+nyata. Secara teknis,  sistem  yang dibangun memadukan dua metode utama, yaitu 
+
+algoritma Artificial  Neural Network (ANN) yang berperan mengklasifikasikan  teks 
+
+bahan  masukan  ke  dalam  kategori  resep,  serta  Cosine  Similarity  yang  berperan 
+
+mengukur  dan  memeringkat  kemiripan  resep  guna  menghasilkan  rekomendasi 
+
+akhir yang relevan. 
+
+Metodologi CRISP-DM yang  diterapkan  pada  penelitian  ini  meliputi  enam 
+
+fase  utama  yang  saling  berkesinambungan,  yaitu  Business  Understanding,  Data 
+
+Understanding,  Data  Preparation,  Modeling,  Evaluation,  dan  Deployment. 
+
+Keenam  fase  tersebut  tidak  selalu  berjalan  satu  arah,  melainkan  dapat bersifat 
+
+iteratif  apabila  hasil  evaluasi  menuntut  perbaikan  pada  tahap  pemodelan. 
+
+Keseluruhan alur kerja tahapan tersebut divisualisasikan pada Gambar 3.1 berikut. 
+
+Gambar 3.1 Flowchart Alur Penelitian 
+
+36 
+
+ 
+ 
+Berdasarkan  Gambar  3.1,  penelitian  diawali  pada 
+
+tahap  Business 
+
+Understanding  untuk  mengidentifikasi  masalah  dan  merumuskan  tujuan  sistem. 
+
+Tahap  berikutnya,  Data Understanding,  berfokus pada pengumpulan  dan analisis 
+
+awal dataset resep masakan  yang digunakan. Data tersebut kemudian dibersihkan 
+
+dan  ditransformasikan  pada  tahap  Data  Preparation  hingga  siap  diproses  oleh 
+
+model.  Selanjutnya,  pada  tahap  Modeling,  algoritma  ANN  dilatih  untuk 
+
+mengklasifikasikan  kategori  resep dan dipadukan dengan Cosine Similarity  untuk 
+
+memeringkat  rekomendasi.  Kinerja  model  lalu  diukur  pada  tahap  Evaluation; 
+
+apabila  hasilnya  belum  optimal,  proses  dapat kembali  ke tahap pemodelan  untuk 
+
+penyempurnaan.  Terakhir,  model  yang  telah  teruji  diintegrasikan  ke  dalam 
+
+antarmuka sistem berbasis  web pada tahap Deployment agar dapat digunakan oleh 
+
+pengguna. 
+
+3.1. Pemahaman Masalah dan Tujuan (Business Understanding) 
+
+Fase pertama dalam metodologi CRISP-DM adalah Business Understanding. 
+
+Pada  tahap  ini,  pemahaman  terhadap  masalah  dibangun  melalui  studi  literatur. 
+
+Langkah  awal  difokuskan  pada  identifikasi  masalah  (problem  identification) 
+
+dengan mempelajari  berbagai  penelitian  terdahulu mengenai  sistem  rekomendasi 
+
+pemanfaatan bahan makanan. Dari kajian  tersebut, teridentifikasi bahwa meskipun 
+
+beberapa penelitian telah mengembangkan  fitur penyaringan  resep berbasis bahan, 
+
+pendekatan  komputasi  yang  digunakan  umumnya  masih  memiliki  keterbatasan. 
+
+Beberapa  metode  pengenalan  bahan,  seperti  yang  berbasis  pengolahan  citra, 
+
+menuntut sumber daya komputasi yang besar (Saputri dkk., 2024; Rahmawan dkk., 
+
+2022), sementara sebagian  metode klasifikasi  berbasis  teks lainnya  belum optimal 
+
+dalam  menangani  keragaman  teks  bahan  masakan  Indonesia  (Febrywinata  dkk., 
+
+2025).  Oleh  karena  itu,  ditemukan  celah  penelitian  (gap  analysis)  untuk 
+
+menghadirkan  solusi  yang  lebih  ringan  secara  komputasi.  Berdasarkan  celah 
+
+tersebut,  tujuan  penelitian  (business  objective)  dirumuskan  untuk  membangun 
+
+sistem cerdas menggunakan algoritma Artificial  Neural Network (ANN). Algoritma 
+
+ini  dipilih  karena  memiliki  kemampuan  mengenali  pola non-linear  dan hubungan 
+
+kompleks  pada  data 
+
+teks  berdimensi 
+
+tinggi, 
+
+sehingga 
+
+sesuai  untuk 
+
+mengklasifikasikan  keragaman teks bahan masakan Indonesia. Sistem ini bertujuan 
+
+37 
+
+ 
+untuk  memproses  teks  masukan  bahan  dari  pengguna  secara  langsung  guna 
+
+memberikan  rekomendasi resep masakan Indonesia secara presisi  dan efisien. 
+
+Setelah  masalah  dipahami,  langkah  selanjutnya  adalah  menilai  situasi 
+
+(situation  assessment)  terkait  ketersediaan  data  pendukung.  Pada  tahap  ini, 
+
+dilakukan  eksplorasi  dan  pemanfaatan  dataset  sekunder  publik  dari  platform 
+
+Kaggle,  yaitu Indonesian  Food  Recipes  Dataset  (Nathaniel,  2024).  Dataset yang 
+
+berisi  ribuan teks resep  dan komposisi  bahan ini digunakan sebagai  fondasi utama 
+
+penentuan  batasan penelitian.  Kesimpulan  dari  permasalahan  pada literatur  yang 
+
+dipadukan  dengan  ketersediaan  data  ini  kemudian  dirumuskan  menjadi  sasaran 
+
+teknis  penelitian  (data  mining  goal).  Berdasarkan  sasaran  tersebut,  disusunlah 
+
+rencana  proyek  (project  plan)  yang  berfokus pada penerapan  pemrosesan  bahasa 
+
+alami  untuk mengekstraksi  data teks, melatih model ANN sebagai pengklasifikasi 
+
+kategori resep,  serta menerapkan  Cosine Similarity  untuk memeringkat  kemiripan 
+
+resep, yang keberhasilannya  kemudian diukur menggunakan metrik evaluasi  yang 
+
+telah ditentukan untuk menilai kinerja  sistem. 
+
+3.2. Pemahaman Data (Data Understanding) 
+
+Fase pemahaman data berfokus pada identifikasi, pengumpulan, dan analisis 
+
+karakteristik  dataset  awal  yang  digunakan  untuk  melatih  model.  Data  dalam 
+
+penelitian  ini merupakan  dataset sekunder publik yang diperoleh melalui  platform 
+
+Kaggle  dengan  judul  Indonesian  Food  Recipes  Dataset  (Nathaniel,  2024). 
+
+Berdasarkan tinjauan statistik awal, dataset ini memuat 14.945 baris data resep dan 
+
+terdiri dari 10  kolom  atribut. Data tersebut terbagi  ke dalam delapan kelas  bahan 
+
+utama,  yaitu  udang (1.994),  tempe  (1.956),  sapi  (1.920),  telur  (1.902),  kambing 
+
+(1.874),  ikan  (1.863),  ayam  (1.803),  dan  tahu  (1.633).  Distribusi  antar  kelas 
+
+tergolong relatif seimbang (rentang 1.633–1.994 atau rasio sekitar 1,2:1), sehingga 
+
+dataset dinilai representatif untuk pelatihan model klasifikasi. Sebagai bagian  dari 
+
+analisis  awal,  dilakukan  pula  verifikasi  kualitas  data  untuk  memastikan  tidak 
+
+terdapat  nilai  kosong  (null)  maupun  duplikasi  pada  atribut  utama  yang  akan 
+
+digunakan. 
+
+Dari sepuluh kolom  yang tersedia (Title,  Ingredients,  Steps, Category, URL, 
+
+Loves,  Total  Ingredients,  Total  Steps,  Ingredients  Cleaned,  dan  Title  Cleaned), 
+
+38 
+
+ 
+tidak  seluruhnya  relevan  untuk  pemodelan.  Kolom  seperti  URL,  Loves,  Total 
+
+Ingredients,  dan Total Steps merupakan metadata pelengkap yang tidak digunakan 
+
+dalam  proses  klasifikasi.  Dataset  juga  menyediakan  kolom 
+
+turunan,  yaitu 
+
+Ingredients  Cleaned  dan  Title  Cleaned,  yang  sebagian 
+
+telah  dibersihkan 
+
+sebelumnya.  Namun,  penelitian  ini  memilih  untuk  mengolah  atribut  Ingredients 
+
+mentah secara mandiri melalui tahapan prapemrosesan yang dirancang sendiri, agar 
+
+seluruh  proses  transformasi  data  terkontrol  dan  transparan  secara  metodologis. 
+
+Dengan  demikian,  penelitian  ini  menyeleksi  empat  atribut  utama  yang  paling 
+
+relevan  dengan arsitektur  algoritma  Artificial  Neural  Network  (ANN) yang  akan 
+
+dibangun. Gambaran  detail struktur dan fungsi atribut tersebut dapat dilihat pada 
+
+Tabel 3.1. 
+
+Tabel 3.1 Struktur dan Kategori Atribut Utama Dataset 
+
+No  Atribut 
+
+/ 
+
+Tipe Data 
+
+Kategori 
+
+Keterangan 
+
+Kolom 
+
+1 
+
+Title 
+
+Teks 
+
+Identitas 
+
+Judul  atau nama  spesifik resep  masakan 
+
+Indonesia. 
+
+Berfungsi 
+
+sebagai 
+
+identitas/nama  resep  yang  ditampilkan 
+
+sebagai  hasil  rekomendasi akhir  (output 
+
+sistem). 
+
+2 
+
+Ingredients  Teks 
+
+Fitur (Input) 
+
+Kumpulan  bahan  tak  terstruktur  dari 
+
+setiap  resep;  menjadi fokus  utama yang 
+
+diekstraksi  menjadi  bobot  numerik 
+
+menggunakan TF-IDF  sebagai  masukan 
+
+model. 
+
+3 
+
+Category 
+
+Kategorikal 
+
+Label/Target 
+
+Kelas  bahan  utama  resep  (ayam,  ikan, 
+
+(8 kelas) 
+
+kambing, sapi, tahu, telur, tempe, udang). 
+
+Menjadi label/target yang diprediksi oleh 
+
+model ANN. 
+
+4 
+
+Steps 
+
+Teks 
+
+Informasi 
+
+Tata  cara  memasak;  tidak  dilibatkan 
+
+Tambahan 
+
+dalam pelatihan model, hanya ditampilkan 
+
+pada  antarmuka  sebagai  panduan  bagi 
+
+pengguna . 
+
+Berdasarkan pemetaan pada Tabel 3.1, atribut Ingredients  memainkan  peran 
+
+sentral  sebagai  data masukan  utama  yang  akan  diproses  lebih  lanjut  pada  tahap 
+
+39 
+
+ 
+prapemrosesan teks. Atribut Category berperan sebagai label/target klasifikasi yang 
+
+akan diprediksi oleh model ANN ke dalam delapan kelas bahan utama. Sementara 
+
+itu,  atribut  Title  bukan  merupakan  target model,  melainkan  identitas keluaran—
+
+yakni nama resep yang ditampilkan kepada pengguna setelah proses pemeringkatan 
+
+dengan Cosine  Similarity.  Adapun atribut  Steps  tidak dilibatkan  dalam  pelatihan 
+
+model, melainkan dipanggil dari basis data untuk ditampilkan pada antarmuka akhir 
+
+sebagai panduan praktis memasak bagi pengguna. 
+
+3.3. Persiapan Data (Data Preparation) 
+
+Fase persiapan  data (Data Preparation)  bertujuan untuk membersihkan  dan 
+
+mentransformasikan  data mentah menjadi format numerik yang siap diproses oleh 
+
+algoritma  komputasi.  Pada penelitian  ini,  tahap persiapan  data difokuskan secara 
+
+mendalam pada pemrosesan  teks (text  processing) untuk atribut Ingredients  (daftar 
+
+bahan  masakan),  mengingat  Artificial  Neural  Network  (ANN)  hanya  dapat 
+
+memproses  masukan  berupa data numerik.  Tahapan  yang direncanakan pada fase 
+
+ini  meliputi  prapemrosesan  teks, pembagian  dataset, dan ekstraksi  fitur. Rencana 
+
+alur persiapan data tersebut divisualisasikan pada Gambar 3.2. 
+
+Gambar 3.2 Flowchart Tahapan Persiapan Data 
+
+40 
+
+ 
+ 
+Berdasarkan  Gambar  3.2,  tahapan  secara  rinci  akan  dilakukan  sebagai 
+
+berikut: 
+
+1. Prapemrosesan Teks (Text Preprocessing)   
+
+Proses  ini  bertujuan  menghilangkan  gangguan  (noise)  pada  teks  bahasa 
+
+Indonesia.  Rangkaian  prapemrosesan  ini  memanfaatkan  pustaka  pemrosesan 
+
+bahasa alami (Natural  Language Processing/NLP), di antaranya pustaka Sastrawi 
+
+untuk penanganan stopword dan stemming bahasa Indonesia, melalui tahapan: 
+
+a)  Filtering:  Pembersihan  data dengan menghapus  angka,  tanda baca,  serta 
+
+karakter khusus yang tidak relevan. Proses ini penting untuk menghilangkan 
+
+unsur ukuran (seperti "500gr"  atau "1/2")  agar sistem hanya berfokus pada 
+
+nama bahan masakan. 
+
+b)  Case  Folding:  Mengubah  seluruh  huruf menjadi  huruf  kecil  (lowercase) 
+
+untuk menyeragamkan format karakter. 
+
+c)  Tokenizing:  Memecah  teks  daftar  bahan  masakan  menjadi  potongan-
+
+potongan kata  tunggal (token)  agar  dapat diproses  secara  individual pada 
+
+tahap selanjutnya. 
+
+d)  Stopword  Removal:  Menghapus  kata-kata  yang  tidak  memiliki  nilai 
+
+klasifikasi  yang kuat, seperti kata hubung dan kata takaran umum (contoh: 
+
+"dan", "secukupnya"),  termasuk satuan ukuran (seperti "gr",  "gram",  "kg", 
+
+"ml",  "sdm", "sdt", "butir", "siung",  "lembar"). 
+
+e)  Stemming: Mengubah kata berimbuhan menjadi kata dasar baku sesuai tata 
+
+bahasa  Indonesia  menggunakan  pustaka  Sastrawi,  sehingga  variasi  kata 
+
+yang bermakna sama dapat disatukan. 
+
+2. Pembagian Data (Data Splitting)   
+
+Sebelum  ekstraksi  fitur, dataset dibagi  terlebih  dahulu menjadi  dua bagian 
+
+terpisah  untuk  kebutuhan  pelatihan  dan pengujian  model.  Pembagian  dilakukan 
+
+lebih awal untuk mencegah kebocoran data (data leakage), yaitu agar informasi dari 
+
+data uji  tidak ikut  memengaruhi  pembentukan  fitur. Penelitian  ini  menggunakan 
+
+rasio  pembagian  80:20, yaitu 80% dari total data (11.956  baris)  sebagai  data latih 
+
+(training  data) untuk membangun pola pada model ANN, dan 20% sisanya (2.989 
+
+41 
+
+ 
+baris)  sebagai  data uji (testing  data)  untuk mengukur  kemampuan  prediksi model 
+
+terhadap data yang belum pernah dilihat sebelumnya. 
+
+3. Ekstraksi Fitur dengan TF-IDF  
+
+Setelah  data  terbagi,  teks  bersih  hasil  prapemrosesan  diubah  menjadi 
+
+representasi  numerik  menggunakan  metode  Term  Frequency–Inverse  Document 
+
+Frequency  (TF-IDF).  Metode  ini  menghitung  bobot  statistik  setiap  kata  dasar 
+
+bahan: semakin sering sebuah bahan muncul pada satu resep namun jarang muncul 
+
+di seluruh kumpulan resep, semakin tinggi bobot uniknya. Proses pembentukan TF-
+
+IDF (fit)  dilakukan hanya pada data latih  untuk menghasilkan  kosakata dan bobot 
+
+IDF; representasi (transform) data uji kemudian dilakukan menggunakan parameter 
+
+yang  sama  agar  konsisten  dan bebas  dari  kebocoran  data. Hasil  akhir  tahap  ini 
+
+adalah  transformasi  data dari  format teks  menjadi  matriks  vektor  numerik,  yang 
+
+menjadi masukan bagi model ANN sekaligus  dasar perhitungan kemiripan  Cosine 
+
+Similarity  pada tahap rekomendasi. 
+
+3.4. Pemodelan (Modeling) 
+
+Fase  keempat  dalam  CRISP-DM  adalah  pemodelan  (Modeling),  yaitu 
+
+tahapan inti tempat algoritma machine learning dibangun dan dilatih menggunakan 
+
+data  yang  telah  dipersiapkan  sebelumnya.  Penelitian  ini  membangun  model 
+
+menggunakan  algoritma  Artificial  Neural  Network  (ANN),  yang  dipilih  karena 
+
+kemampuannya mengenali  pola non-linear  dan hubungan kompleks  pada data teks 
+
+berdimensi  tinggi—sesuai  dengan  kebutuhan  untuk  mengklasifikasikan  daftar 
+
+bahan masakan (input)  ke dalam kategori resep (output klasifikasi).  Pada tahap ini, 
+
+matriks  vektor numerik  hasil  ekstraksi  TF-IDF dimasukkan ke dalam Input Layer 
+
+(lapisan  masukan)  arsitektur jaringan.  Jumlah  node atau neuron pada Input  Layer 
+
+menyesuaikan dengan jumlah fitur kata (bahan masakan) unik yang dihasilkan pada 
+
+tahap prapemrosesan. 
+
+Selanjutnya, informasi dari Input Layer diteruskan ke Hidden Layer (lapisan 
+
+tersembunyi)  untuk proses  penyetelan bobot selama  pelatihan. Sebagai  rancangan 
+
+awal (baseline),  arsitektur ANN ini direncanakan menggunakan dua tingkat Hidden 
+
+Layer. Untuk menghindari  masalah  gradien yang hilang  (vanishing  gradient)  dan 
+
+mempercepat  konvergensi  pembelajaran,  kedua  Hidden  Layer 
+
+tersebut 
+
+42 
+
+ 
+menggunakan fungsi aktivasi Rectified  Linear Unit (ReLU). Setelah pola dikenali, 
+
+hasil  komputasi  diteruskan  ke  Output  Layer  (lapisan  keluaran)  yang  terdiri  atas 
+
+delapan  node  sesuai  delapan  kategori  bahan  utama  (ayam,  ikan,  kambing,  sapi, 
+
+tahu, telur, tempe, dan udang). Output Layer menggunakan fungsi aktivasi Softmax 
+
+untuk  menghasilkan  distribusi  probabilitas  atas  kedelapan  kategori  tersebut, 
+
+sehingga  sistem  dapat  menentukan  kategori  yang  paling  sesuai  dengan  bahan 
+
+masukan  pengguna.  Rancangan  awal  arsitektur  pemodelan  ANN  tersebut 
+
+diilustrasikan pada Gambar 3.3. 
+
+Gambar 3.3 Rancangan Awal Arsitektur Artificial  Neural Network (ANN) 
+
+Berdasarkan  Gambar  3.3,  alur  pemodelan  secara  hierarkis  dimulai  dengan 
+
+menerima data masukan pada Input Layer. Data tersebut kemudian diproses melalui 
+
+serangkaian  lapisan  komputasi  di  dalam  Hidden  Layer.  Pada  rancangan  ini 
+
+digunakan dua tingkat Hidden Layer yang bertugas secara berurutan mengekstraksi 
+
+fitur komputasional dan mengenali  pola kompleks  dari kombinasi  bahan masakan. 
+
+Setelah melalui  proses  penyetelan  bobot di dalam  Hidden Layer, hasil  komputasi 
+
+diteruskan  ke  Output  Layer,  yang  mengonversi  perhitungan  jaringan  menjadi 
+
+distribusi probabilitas atas delapan kategori resep. 
+
+43 
+
+ 
+ 
+Perlu  ditegaskan  bahwa  keluaran  ANN  berupa  prediksi  kategori  belum 
+
+merupakan  rekomendasi  akhir.  Setelah model menentukan kategori  bahan utama, 
+
+sistem melanjutkan ke tahap pemeringkatan menggunakan  Cosine Similarity.  Pada 
+
+tahap  ini,  vektor  TF-IDF  dari  bahan  masukan  pengguna  dibandingkan  tingkat 
+
+kemiripannya  dengan vektor  seluruh  resep  yang  berada  di  dalam  kategori  hasil 
+
+prediksi  ANN. Resep  dengan  nilai  kemiripan  tertinggi  kemudian  diurutkan  dan 
+
+ditampilkan sebagai rekomendasi akhir (Top-N). Dengan demikian, ANN berperan 
+
+mempersempit  ruang  pencarian  ke satu  kategori  yang  relevan,  sementara  Cosine 
+
+Similarity menentukan resep spesifik yang paling sesuai dengan ketersediaan bahan 
+
+pengguna. 
+
+3.5. Evaluasi (Evaluation) 
+
+Fase  kelima  dalam  metodologi  CRISP-DM  adalah  Evaluasi  (Evaluation). 
+
+Pada tahap ini, kinerja dan keandalan model Artificial  Neural Network (ANN) yang 
+
+telah dilatih diukur secara  komprehensif.  Proses  evaluasi  menggunakan  20% data 
+
+uji  (testing  data)  yang  sebelumnya  disisihkan  pada  tahap  persiapan  data. 
+
+Penggunaan data uji yang belum pernah dilihat model selama pelatihan  ini krusial 
+
+untuk  memastikan  model  tidak  sekadar  menghafal  pola  (overfitting),  melainkan 
+
+benar-benar  memiliki 
+
+kemampuan 
+
+generalisasi 
+
+yang 
+
+baik 
+
+dalam 
+
+mengklasifikasikan  kategori bahan utama dari masukan yang baru. 
+
+Untuk mengukur keakuratan model dalam mengklasifikasikan  kategori resep, 
+
+penelitian  ini  menggunakan  pendekatan Confusion  Matrix.  Karena  klasifikasi  ini 
+
+bersifat multikelas  (delapan kategori), Confusion Matrix  yang terbentuk berukuran 
+
+8×8, dan setiap metrik dihitung per kategori berdasarkan komponen  True Positive 
+
+(TP), True Negative (TN), False Positive (FP), dan False Negative (FN), kemudian 
+
+dirata-ratakan  (macro/weighted  average)  untuk  memperoleh  nilai  keseluruhan. 
+
+Metrik  evaluasi  yang  dihitung  meliputi  Akurasi,  Presisi,  Recall,  dan  F1-Score, 
+
+dengan rincian sebagai berikut: 
+
+1. Akurasi (Accuracy) 
+
+Akurasi  merupakan 
+
+rasio  prediksi  yang  benar  secara  keseluruhan 
+
+dibandingkan dengan total data yang diuji. Metrik ini menunjukkan seberapa tepat 
+
+model mengklasifikasikan  kategori secara umum. 
+
+44 
+
+ 
+2. Presisi  (Precision) 
+
+Presisi  mengukur  ketepatan prediksi  positif model. Dalam  konteks ini,  dari 
+
+seluruh  resep  yang  diprediksi  masuk  ke  suatu  kategori,  presisi  menunjukkan 
+
+proporsi resep yang benar-benar  milik kategori tersebut.  
+
+3. Recall (Sensitivitas) 
+
+Recall  mengukur  kemampuan  model  menemukan  kembali  seluruh  anggota 
+
+suatu kategori. Metrik ini  menunjukkan, dari seluruh resep  yang sebenarnya  milik 
+
+suatu kategori, berapa proporsi yang berhasil  diprediksi dengan benar oleh model. 
+
+4. F1-Score 
+
+F1-Score  merupakan  rata-rata harmonik  dari Presisi  dan Recall.  Mengingat 
+
+distribusi data antar kategori relatif seimbang  (rasio ±1,2:1), Akurasi tetap menjadi 
+
+metrik  yang  andal;  sementara 
+
+itu,  F1-Score  digunakan  untuk  memastikan 
+
+keseimbangan  antara  Presisi  dan  Recall  tetap  terjaga  secara  merata  di  seluruh 
+
+kategori. 
+
+3.6. Penyebaran (Deployment) 
+
+Fase  keenam  sekaligus 
+
+terakhir  dari  metodologi  CRISP-DM  adalah 
+
+penyebaran  (Deployment).  Pada  tahapan  ini,  model  Artificial  Neural  Network 
+
+(ANN) beserta vectorizer TF-IDF yang telah dilatih dan terbukti memiliki  performa 
+
+terbaik pada tahap evaluasi  akan diekspor dan disimpan ke dalam format file  yang 
+
+siap  pakai. Model analitik  hasil  pelatihan  tersebut kemudian dioperasikan  dengan 
+
+cara diintegrasikan ke dalam lingkungan sistem nyata berupa aplikasi berbasis web. 
+
+Berdasarkan rancangan  sistem,  proses  integrasi  dan deployment  ini  direncanakan 
+
+memanfaatkan web framework Flask  yang berbasis  bahasa pemrograman  Python. 
+
+Framework  ini  dipilih  karena  sifatnya  yang  ringan,  fleksibel,  serta  andal  dalam 
+
+menjembatani  dan mengelola  deployment  model machine learning  ke lingkungan 
+
+produksi. 
+
+Secara  operasional,  skenario  penyebaran  ini  memisahkan  tanggung  jawab 
+
+antara  backend  (peladen)  dan  frontend  (antarmuka  pengguna).  Pengguna  akhir 
+
+berinteraksi  dengan  sistem  melalui  antarmuka  web  dengan  memasukkan  daftar 
+
+bahan  makanan  yang  tersedia di  dapur.  Data teks  tersebut  kemudian  dikirim  ke 
+
+backend untuk diproses:  setelah melalui  prapemrosesan  dan ekstraksi fitur, model 
+
+45 
+
+ 
+ANN  mengklasifikasikan  masukan  ke  dalam  salah  satu  kategori  bahan  utama. 
+
+Selanjutnya, Cosine Similarity  memeringkat resep-resep  di dalam kategori tersebut 
+
+berdasarkan tingkat kemiripan bahan dengan masukan pengguna. Sistem kemudian 
+
+merespons  dengan  mengirimkan  keluaran  berupa  rekomendasi  resep  masakan 
+
+Indonesia  (Top-N)  yang  paling  relevan,  lengkap  dengan  bahan  dan  langkah 
+
+pembuatannya, untuk ditampilkan secara visual  di layar pengguna. 
+
+46 
+
+ 
+DAFTAR PUSTAKA 
+
+Alfin, M., Akbar, M. B., Manik, A. R., Purba, J., & Perdana, A. (2025). 
+
+PENGEMBANGAN APLIKASI REKOMENDASI RESEP MAKANAN 
+BERDASARKAN BAHAN MENGGUNAKAN API. JATI (Jurnal 
+Mahasiswa Teknik Informatika). 
+
+Alwi, M. N. (2024, Juni 19). CRISP-DM: Tahapan, Studi Kasus, Kelebihan, dan 
+Kekurangan. https://www.dicoding.com/blog/crisp-dm-tahapan-studi-kasus-
+kelebihan-dan-kekurangan/ 
+
+Ananda, I. K. N., Dewi, N. P. N. P., Marti, N. W., & Dewi, L. J. E. (2024). 
+
+Klasifikasi Multilabel  Pada Gaya Belajar Siswa Sekolah Dasar 
+Menggunakan Algoritma Machine Learning. Journal of Applied Computer 
+Science and Technology, 5(2), 144–154. 
+https://doi.org/10.52158/jacost.v5i2.940 
+
+Bre, F., Gimenez, J. M., & Fachinotti, V. D. (2018). Prediction of wind pressure 
+
+coefficients on building surfaces using artificial neural networks. Energy and 
+Buildings, 158, 1429–1441. https://doi.org/10.1016/j.enbuild.2017.11.045 
+Descania, D. Y. (2022). Prediksi Pertumbuhan Penduduk Di Kecamatan Baregbeg 
+
+Kabupaten Ciamis Menggunakan Metode Artificial Neural Network. Jurnal 
+Informatika  dan Teknologi Pendidikan, 2(2), 37–43. 
+https://doi.org/10.25008/jitp.v2i2.28 
+
+Faiz, A. I., & Ridhwanullah, D. (2025). SAVORYAI: SISTEM REKOMENDASI 
+
+RESEP MASAKAN BERBASIS CONTENT-BASED FILTERING DAN 
+OPENAI API. Jurnal TIKomSiN, 13(2). 
+https://doi.org/10.30646/tikomsin.v13i2.1023 
+
+Febrywinata, E., Az-Zahra, R. R., & Nurfitri, K. (2025). Sistem Rekomendasi 
+
+Masakan Berdasarkan Ketersediaan Bahan Menggunakan Metode Content-
+Based Filtering dengan Algoritma K-Nearest Neighbors. Jurnal Teknik 
+Informatika  dan Teknologi Informasi, 5(2), 757–772. 
+https://doi.org/10.55606/jutiti.v5i2.5690 
+
+Firmansyah,  M. F. (2025, November 28). Memahami Binary Classification  dalam 
+
+Deep Learning. https://medium.com/@fiqrif/memahami-binary-
+classification-dalam-deep-learning-7e00beecc8d1 
+geeksforgeeks. (2026, Mei 18). MVC Design Pattern. 
+
+https://www.geeksforgeeks.org/system-design/mvc-design-pattern/ 
+Hanum, A. R., Pramukantoro, E. S., & Kartikasari, D. P. (2025). STUDI 
+
+PERBANDINGAN KINERJA TF-IDF DAN INDOBERT UNTUK 
+REKOMENDASI RESEP BERDASARKAN KETERSEDIAAN BAHAN 
+MAKANAN BERBASIS WEBSITE. Jurnal Pengembangan Teknologi 
+Informasi dan Ilmu Komputer. http://j-ptiik.ub.ac.id 
+
+47 
+
+ 
+ 
+Lestari, S. Y., & Kusrini. (2012). MEMBANGUN APLIKASI MOBILE “RESEP 
+MASAKAN ASIA (INDONESIA, CHINA, JEPANG)” BERBASIS 
+ANDROID. JURNAL DASI. 
+
+Maulid, R. (2023, November 28). Content Based Filtering  dalam Algoritma Data 
+Science. https://dqlab.id/content-based-filtering-dalam-algoritma-data-
+science 
+
+Mulyawan, Y. R., & Lestari, C. C. (2019). RANCANG BANGUN SISTEM 
+
+REKOMENDASI RESEP MASAKAN BERDASARKAN BAHAN BAKU 
+DENGAN MENGGUNAKAN ALGORITMA PENYARINGAN 
+BERBASIS KONTEN. Dalam JUTI: Jurnal Ilmiah Teknologi Informasi 
+(Vol. 17, Nomor 2). 
+
+Nathaniel, A. (2024, Juni 21). Indonesian Food Recipes Dataset [Data set]. 
+
+Kaggle. https://www.kaggle.com/datasets/albertnathaniel12/food -recipes-
+dataset 
+
+Pernanda, S. T., Lavindi, E. E., Yobioktabera, A., & Karima, A. (2023). 
+
+IMPLEMENTASI CRISP-DM PADA SISTEM REKOMENDASI BERBASIS 
+KONTEN UNTUK PENENTUAN JENIS IKAN HIAS DALAM AKUARIUM 
+(Vol. 19, Nomor 3). 
+
+Purwitasari, N. A., & Soleh, M. (2022). Implementasi Algoritma Artificial  Neural 
+Network Dalam Pembuatan Chatbot Menggunakan Pendekatan Natural 
+Language Processing. https://doi.org/https://doi.org/10.31543/jii.v6i1.192 
+
+Rahmadani, N. F., Agustina, N. A., Robbayani, W. H., & Ardiyanto, M. (2024). 
+
+Sistem Informasi Penjualan Baju Adat Jawa “Busana Keraton” Berbasis 
+Web Menggunakan Flask Python. 
+
+Rahmaddeni, R., Anam, M. K., Irawan, Y., Susanti, S., & Jamaris, M. (2022, 
+April 30). Comparison of Support Vector Machine and XGBSVM in 
+Analyzing Public Opinion on Covid-19 Vaccination. ILKOM Jurnal Ilmiah. 
+https://doi.org/10.33096/ilkom.v14i1.1090.32-38 
+
+Rahmawan, A. R., Wicaksana, C. A., & Alimuddin. (2022). APLIKASI 
+
+PENDETEKSI MAKANAN DAN REKOMENDASI RESEP MASAKAN 
+KHAS INDONESIA. Jurnal Ilmiah Setrum, 11(1), 158–168. 
+https://doi.org/10.36055/setrum.v11i1.15919 
+
+Rina. (2023, Juni 11). Memahami Confusion Matrix:  Accuracy, Precision, Recall, 
+
+Specificity,  dan F1-Score untuk Evaluasi Model Klasifikasi. 
+https://esairina.medium.com/memahami-confusion-matrix-accuracy-
+precision-recall-specificity-dan-f1-score-610d4f0db7cf 
+
+Saputri, B. R. D., Asmawati, F. D., Rahmawati, A., Manggala, I. H., & 
+
+Hidayattullah, M. F. (2024). DETEKSI BAHAN MAKANAN UNTUK 
+REKOMENDASI RESEP MASAKAN PADA PROGRAM DIET 
+
+48 
+
+ 
+MENGGUNAKAN ALGORITMA CNN. Jurnal Ilmiah Informatika 
+(Scientific  Informatics  Journal). 
+
+Shivanandhan, M. (2025, September 10). Cosine Similarity  Explained: The Math 
+Behind LLMs. https://medium.com/data-science-collective/cosine-similarity-
+explained-the-math-behind-llms-b20caac9f93c 
+
+Sholikhah, Q. M., & Asmunin. (2020). Sistem Rekomendasi Resep Makanan 
+
+Dengan Metode Collaborative Filtering Dan FP-Growth Menggunakan API 
+themealdb.com. JINACS: Journal of Informatics  and Computer Science. 
+Tarigan,  I. D. S., Habibi, R., & Fatonah, Rd. N. S. (2023). Evaluasi Algoritma 
+Klasifikasi Machine Learning Kategori Nilai Akhir Tunjangan Kinerja 
+Pegawai. Dalam Jurnal Sistem Cerdas (Vol. 6, Nomor 3). 
+
+Tuntas, R., & Dikici, B. (2016). An investigation on the aging responses  and 
+
+corrosion behaviour of A356/SiC composites by neural network: The effect 
+of cold working ratio. Journal of Composite Materials,  50(17), 2323–2335. 
+https://doi.org/10.1177/0021998315602950 
+
+Wahyuni, V., Niswatin, R. K., & Hariri, F. R. (2018). Sistem Rekomendasi Resep 
+
+Masakan Menggunakan Kombinasi Metode ROC dan SAW. 
+
+Wong, J., & Yoannita. (2026). IMPLEMENTASI TF-IDF DAN COSINE 
+SIMILARITY UNTUK REKOMENDASI RESEP MASAKAN 
+INDONESIA BERDASARKAN BAHAN MAKANAN. Dalam Jurnal 
+Mahasiswa Teknik Informatika (Vol. 10, Nomor 1). 
+
+49 
+
+ 
+  
+
