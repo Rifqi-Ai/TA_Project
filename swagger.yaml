@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: TA_Project API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /recommend:
+    post:
+      summary: Recommend recipes based on ingredients
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                  example: ["bawang", "cabai", "ayam"]
+      responses:
+        '200':
+          description: List of recommended recipes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recommendations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        recipe:
+                          type: string
+                        ingredients:
+                          type: string
+                        steps:
+                          type: string
+                        score:
+                          type: number
+        '401':
+          description: Unauthorized (missing/invalid API key)
+        '400':
+          description: Bad request
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
