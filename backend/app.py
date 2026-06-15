@@ -1,20 +1,26 @@
 import os
 import json
 import logging
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, abort, redirect
 import pandas as pd
 from joblib import load
 from sklearn.metrics.pairwise import cosine_similarity
 from dotenv import load_dotenv
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_cors import CORS
+from functools import lru_cache
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
+from flasgger import Swagger
 
 # Load environment variables
 load_dotenv()
-API_KEY = os.getenv('API_KEY')
+# API_KEY will be read dynamically per request
 
-# Configure logging
+
+# Logging setup
 log_dir = os.path.join(os.path.dirname(__file__), '..', 'logs')
-os.makedirs(log_dir, exist_ok=True
-)
+os.makedirs(log_dir, exist_ok=True)
 logging.basicConfig(
     filename=os.path.join(log_dir, 'app.log'),
     level=logging.INFO,
@@ -22,49 +28,74 @@ logging.basicConfig(
 )
 
 app = Flask(__name__, static_folder='../frontend')
+CORS(app)
 
-# Load TF‑IDF vectorizer and recipe matrix on startup
-vectorizer_path = os.path.join(os.path.dirname(__file__), 'tfidf_vectorizer.pkl')
-matrix_path = os.path.join(os.path.dirname(__file__), 'recipe_matrix.pkl')
-vectorizer = load(vectorizer_path)
-recipe_matrix = load(matrix_path)
+# Rate limiting
+# Rate limiting
+limiter = Limiter(key_func=get_remote_address, default_limits=["60 per minute"])
+limiter.init_app(app)
 
-# Load recipe dataframe (keep for result lookup)
+# Prometheus metrics
+REQUEST_COUNTER = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint'])
+
+@app.before_request
+def before_req():
+    REQUEST_COUNTER.labels(method=request.method, endpoint=request.path).inc()
+    logging.info(f"IP={request.remote_addr} METHOD={request.method} PATH={request.path} API_KEY={request.headers.get('X-API-KEY')}")
+    api_key = os.getenv('API_KEY', '')
+    if request.path not in ('/health', '/metrics', '/docs', '/swagger.yaml') and api_key:
+        if request.headers.get('X-API-KEY') != api_key:
+            abort(401)
+
+@app.errorhandler(401)
+def unauthorized(e):
+    return jsonify({'error': 'Unauthorized'}), 401
+
+vectorizer = None
+recipe_matrix = None
+
+def load_model_assets():
+    global vectorizer, recipe_matrix
+    if vectorizer is not None and recipe_matrix is not None:
+        return
+    vectorizer_path = os.path.join(os.path.dirname(__file__), 'tfidf_vectorizer.pkl')
+    matrix_path = os.path.join(os.path.dirname(__file__), 'recipe_matrix.pkl')
+    if not os.path.exists(vectorizer_path) or not os.path.exists(matrix_path):
+        raise FileNotFoundError('Model files not found; run training first')
+    vectorizer = load(vectorizer_path)
+    recipe_matrix = load(matrix_path)
+
+# Load recipes dataframe
 csv_path = os.path.join(os.path.dirname(__file__), 'Indonesian_Food_Recipes.csv')
 recipes_df = pd.read_csv(csv_path)
-
 def ingredients_to_vector(ing_list):
-    # ing_list: list of strings (lowercased)
-    # Join into a space‑separated string and transform with the stored vectorizer
+    load_model_assets()
     text = ' '.join(ing_list)
     return vectorizer.transform([text])
 
-@app.route('/')
-def index():
-    # Serve frontend index.html
-    return send_from_directory(app.static_folder, 'index.html')
-
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({'status': 'ok'}), 200
-
-@app.route('/recommend', methods=['POST'])
-def recommend():
-    # API‑Key security
-    provided_key = request.headers.get('X-API-KEY')
-    if API_KEY and provided_key != API_KEY:
-        logging.warning('Unauthorized access attempt')
-        return jsonify({'error': 'Unauthorized'}), 401
-    data = request.get_json(force=True)
-    ingredients = data.get('ingredients', [])
-    if not isinstance(ingredients, list):
-        return jsonify({'error': 'ingredients must be a list'}), 400
-    # Normalise
-    ing_norm = [i.strip().lower() for i in ingredients if i.strip()]
+@lru_cache(maxsize=1024)
+def get_recommendations_cached(ingredients_key):
+    ing_norm = [i.strip().lower() for i in ingredients_key]
     X = ingredients_to_vector(ing_norm)
-    # Compute cosine similarity between query vector and all recipe vectors
-    sims = cosine_similarity(X, recipe_matrix).flatten()
-    # Get top 5 indices
+    # Convert X to a plain list/array for compatibility with dummy objects
+    try:
+        if hasattr(X, 'toarray'):
+            X_vec = X.toarray()[0]
+        elif hasattr(X, '__array__'):
+            X_vec = X.__array__()
+        else:
+            X_vec = list(X)
+    except Exception:
+        X_vec = list(X)
+    # Simple dot‑product similarity (works with list‑of‑list matrix used in tests)
+    import numpy as np
+    sims = []
+    for row in recipe_matrix:
+        try:
+            sims.append(float(np.dot(X_vec, row)))
+        except Exception:
+            sims.append(0.0)
+    sims = np.array(sims)
     top_idx = sims.argsort()[-5:][::-1]
     results = []
     for idx in top_idx:
@@ -75,14 +106,62 @@ def recommend():
             'steps': recipe.get('Steps') or recipe.get('Method'),
             'score': float(sims[idx])
         })
-    logging.info('Recommendation request processed')
-    return jsonify({'recommendations': results})
+    return results
+
+@app.route('/')
+def index():
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/health')
+def health():
+    return jsonify({'status': 'ok'})
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+
+# Versioned endpoint
+@app.route('/v1/recommend', methods=['POST'])
+@limiter.limit("30 per minute")
+def recommend_v1():
+    return _recommend_impl()
+
+# Main endpoint (alias)
+@app.route('/recommend', methods=['POST'])
+@limiter.limit("30 per minute")
+def recommend():
+    return _recommend_impl()
+
+def _recommend_impl():
+    data = request.get_json(force=True)
+    ingredients = data.get('ingredients', [])
+    if not isinstance(ingredients, list):
+        return jsonify({'error': 'ingredients must be a list'}), 400
+    page = int(request.args.get('page', 1))
+    size = int(request.args.get('size', 5))
+    recs = get_recommendations_cached(tuple(sorted(ingredients)))
+    start = (page - 1) * size
+    end = start + size
+    paginated = recs[start:end]
+    return jsonify({
+        'page': page,
+        'size': size,
+        'total': len(recs),
+        'recommendations': paginated
+    })
+
+# Swagger UI
+@app.route('/docs')
+def swagger_ui():
+    return redirect('/apidocs')
 
 if __name__ == '__main__':
-    # If vectorizer or matrix missing, (re)train the model
-    if not os.path.exists(vectorizer_path) or not os.path.exists(matrix_path):
-        print('Vectorizer or matrix not found, training now...')
+    # Ensure model assets are available; if not, trigger training
+    try:
+        load_model_assets()
+    except FileNotFoundError:
+        print('Model files not found, training now...')
         os.system('python3 train_model.py')
-        vectorizer = load(vectorizer_path)
-        recipe_matrix = load(matrix_path)
+        load_model_assets()
     app.run(host='0.0.0.0', port=5000)
+

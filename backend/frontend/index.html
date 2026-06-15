@@ -3,37 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <title>Rekomendasi Resep Indonesia</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
 <style>
-  body {font-family: Arial, sans-serif; margin: 2rem;}
-  textarea {width: 100%; height: 100px;}
-  button {margin-top: 0.5rem; padding: 0.5rem 1rem;}
-  .result {margin-top: 1rem; border-top: 1px solid #ccc; padding-top: 1rem;}
+  body {padding: 2rem;}
+  .result {margin-top: 1rem;}
 </style>
 </head>
-<body>
-<h1>Rekomendasi Resep Masakan Indonesia</h1>
-<p>Masukkan bahan yang tersedia (pisahkan dengan koma atau baris baru):</p>
-<textarea id="ingredients"></textarea><br>
-<button onclick="getRecommendations()">Cari Resep</button>
-<div id="output" class="result"></div>
+<body class="bg-light text-dark">
+<div class="container">
+  <h1 class="mb-4">Rekomendasi Resep Masakan Indonesia</h1>
+  <div class="mb-3">
+    <label for="ingredients" class="form-label">Bahan (pisahkan koma atau baris baru)</label>
+    <textarea id="ingredients" class="form-control" rows="4" placeholder="mis. bawang, cabai, ayam"></textarea>
+    <datalist id="ingredient-list">
+      <!-- contoh autocomplete, bisa diganti dengan data dinamis -->
+      <option value="bawang"></option>
+      <option value="cabai"></option>
+      <option value="ayam"></option>
+      <option value="tomat"></option>
+      <option value="kentang"></option>
+    </datalist>
+  </div>
+  <button class="btn btn-primary" onclick="getRecommendations()">Cari Resep</button>
+  <button class="btn btn-outline-secondary ms-2" id="toggle-theme" onclick="toggleTheme()">Dark/Light</button>
+  <div id="output" class="result"></div>
+</div>
+
 <script>
+function toggleTheme(){
+  document.body.classList.toggle('bg-dark');
+  document.body.classList.toggle('text-white');
+}
+
 async function getRecommendations(){
   const raw = document.getElementById('ingredients').value;
   const list = raw.split(/[,\n]/).map(s=>s.trim()).filter(Boolean);
   const resp = await fetch('/recommend', {
     method: 'POST',
-    headers:{'Content-Type':'application/json'},
+    headers:{'Content-Type':'application/json','X-API-KEY': ''}, // isi API key bila dipakai
     body: JSON.stringify({ingredients: list})
   });
   const data = await resp.json();
   const out = document.getElementById('output');
-  if(data.error){ out.innerHTML = '<p style="color:red">'+data.error+'</p>'; return; }
-  out.innerHTML = data.recommendations.map(r=>`
-    <h3>${r.recipe} (Score: ${r.score.toFixed(2)})</h3>
+  if(data.error){ out.innerHTML = `<p class="text-danger">${data.error}</p>`; return; }
+  const rows = data.recommendations.map(r=>`<h4>${r.recipe} (Score: ${r.score.toFixed(2)})</h4>
     <p><strong>Bahan:</strong> ${r.ingredients}</p>
-    <p><strong>Langkah:</strong> ${r.steps || ''}</p>
-  `).join('');
+    <p><strong>Langkah:</strong> ${r.steps||''}</p>`).join('<hr>');
+  out.innerHTML = `<div>${rows}</div>`;
+  // Tambah tombol download JSON
+  const dlBtn = document.createElement('button');
+  dlBtn.className='btn btn-sm btn-success mt-2';
+  dlBtn.textContent='Download JSON';
+  dlBtn.onclick = ()=>{
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'recommendations.json'; a.click();
+    URL.revokeObjectURL(url);
+  };
+  out.appendChild(dlBtn);
 }
 </script>
+
 </body>
 </html>
+
